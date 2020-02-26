@@ -1,0 +1,7 @@
+Auftragnehmer:
+Samuel Handisides, Thomas Ober, Christian Röder
+
+Funktion:
+Es soll eine Webanwendung entstehen, die es dem Benutzer ermöglicht den Inhalt seines Kühlschranks mit einer Einkaufliste verknüpfen. Der Inhalt des Kühlschranks wird als Inventarseite in Form einer Liste dargestellt. Es wird der Produktname und die vorhanden Menge angezeigt. Es soll an dieser Stelle möglich sein die Menge manuell zu bearbeiten. 
+Auf der anderen Seite der App wird die Einkaufsliste dargestellt. Diese wird auf zwei unterschiedliche Arten befüllt. Entweder manuell durch eine Benutzereingabe oder automatisch, wenn ein im Kühlschrank vorhandenes Produkt unter einen zuvor eingestellten Schwellenwert sinkt. 
+Markiert der Benutzer ein Produkt auf der Einkaufsliste als gekauft, wird diese automatisch zum Inventar des Kühlschranks hinzugefügt.
