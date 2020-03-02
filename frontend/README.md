@@ -1,8 +1,16 @@
 # the_frigde
-# the_frigde
+
 Kühlschrank Planer App
 
-# Technologien
+## Technologien
+
+	- Frontend (VueJs)
+	- Einkaufsliste
+	- Inventar
+	- Backend (Node)
+	- MySQL (MariaDB)
+	- N2H:
+	- Login
 
 ## Kühlschrankinventar
  - Tablet hängt am Kühlschrank, Inventarliste vorhanden
@@ -20,13 +28,7 @@ Kühlschrank Planer App
 	Menge
 	Neues hinzufügen
 
-MySQL (MariaDB)
-Frontend (VueJs)
-Einkaufsliste
-Inventar
-Backend (Node)
-N2H:
-Login
+
 
 ## Project setup
 ```
