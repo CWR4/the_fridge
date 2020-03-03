@@ -10,9 +10,10 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "baseUrl": "..",
+    "baseUrl": ".",
     "types": [
-      "webpack-env"
+      "webpack-env",
+      "jest"
     ],
     "paths": {
       "@/*": [
@@ -27,13 +28,13 @@
     ]
   },
   "include": [
-    "frontend/src/**/*.ts",
-    "frontend/src/**/*.tsx",
-    "frontend/src/**/*.vue",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
   ],
   "exclude": [
-    "../node_modules"
+    "node_modules"
   ]
 }
