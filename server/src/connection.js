@@ -21,6 +21,30 @@ function connectToDatabase() {
     return connection;
 }
 
+function executeQuery(connection, query, callback) {
+    connection.query(query, function (error, rows, field) {
+        if (error) {
+            console.log(error);
+            return;
+        } else {
+            console.log("Query succesfull");
+            // console.log(rows);
+            return callback(rows);
+        }
+    });
+}
 
-module.exports = connectToDatabase;
+
+function endConnection(connection) {
+    connection.end(function() {
+        console.log("Connection closed");
+    });
+}
+
+
+module.exports = {
+    connectToDatabase,
+    executeQuery,
+    endConnection
+};
 

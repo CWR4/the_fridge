@@ -1,16 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const executeQuery = require('./src/products');
+// const executeQuery = require('./src/products');
 const app = express();
+const db = require("./src/connection");
 
 app.use(bodyParser.json());
 app.use(cors());
 
+const connection = db.connectToDatabase();
+
 const showAllProducts = "select * from products";
 
 app.get('/api/getAll', async (req, res) => {
-    executeQuery(showAllProducts, function(products){
+    db.executeQuery(connection, showAllProducts, function(products){
         console.log(products);
     })
     res.sendStatus(200);
