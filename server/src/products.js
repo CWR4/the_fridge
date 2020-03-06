@@ -1,18 +1,20 @@
 const db = require("./connection");
 
 const connection = db();
+function executeQuery(query, callback){    
+    connection.query(query, function(error, rows, field) {
+        if(error){
+            console.log(error);
+            return;
+        } else {
+            console.log("Query succesfull");
+            // console.log(rows);
+            return callback(rows);
+        }
+    });
+}
 
-$showAllProducts = 'select * from products';
-
-connection.query($showAllProducts, function(error, rows, field) {
-    if(error){
-        console.log(error);
-        return;
-    } else {
-        console.log("Query succesfull");
-        console.log(rows);
-    }
-});
+module.exports = executeQuery;
 
 // db.end(function(){
 //     console.log("Connection closed");
