@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-// const executeQuery = require('./src/products');
 const app = express();
 const db = require("./src/connection");
 
@@ -14,7 +13,13 @@ const showAllProducts = "select * from products";
 
 app.get('/api/getAll', async (req, res) => {
     db.executeQuery(connection, showAllProducts, function(products){
-        console.log(products);
+        for (var product in products){            
+            console.log();
+            console.log('Produkt: ' + products[product].name);
+            console.log('Menge: ' + products[product].amount);
+            console.log('Immer vorhanden: ' + products[product].always_avaiable);
+            console.log('Mindestmenge: ' + products[product].min_amount);
+        }
     })
     res.sendStatus(200);
 });
