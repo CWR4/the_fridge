@@ -8,7 +8,7 @@ function connectToDatabase() {
         password: 'hurg3649',
         database: 'the_fridge'
     });
-    
+
     connection.connect(function (error) {
         if (error) {
             console.log(error.code);
@@ -22,7 +22,7 @@ function connectToDatabase() {
 }
 
 function executeQuery(connection, query, callback) {
-    connection.query(query, function (error, rows, field) {
+    connection.query(query, [], function (error, rows, field) {
         if (error) {
             console.log(error);
             return;

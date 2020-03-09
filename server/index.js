@@ -12,8 +12,8 @@ const connection = db.connectToDatabase();
 const showAllProducts = "select * from products";
 
 app.get('/api/getAll', async (req, res) => {
-    db.executeQuery(connection, showAllProducts, function(products){
-        for (var product in products){            
+    db.executeQuery(connection, showAllProducts, [], function(products){
+        for (var product in products){
             console.log();
             console.log('Produkt: ' + products[product].name);
             console.log('Menge: ' + products[product].amount);
