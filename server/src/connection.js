@@ -4,8 +4,9 @@ function connectToDatabase() {
 
     const connection = mysql.createConnection({
         host: 'localhost',
+        port: '3306',
         user: 'root',
-        password: 'hurg3649',
+        password: 'root',
         database: 'the_fridge'
     });
 
@@ -22,7 +23,7 @@ function connectToDatabase() {
 }
 
 function executeQuery(connection, query, callback) {
-    connection.query(query, [], function (error, rows, field) {
+    connection.query(query, function (error, rows, field) {
         if (error) {
             console.log(error);
             return;
@@ -34,17 +35,14 @@ function executeQuery(connection, query, callback) {
     });
 }
 
-
 function endConnection(connection) {
     connection.end(function() {
         console.log("Connection closed");
     });
 }
 
-
 module.exports = {
     connectToDatabase,
     executeQuery,
     endConnection
 };
-
