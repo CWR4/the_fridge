@@ -46,9 +46,6 @@ function upsertProduct(payload){
 
 }
 
-createNewFridge("MyFridge2");
-db.endConnection(connection);
-
 function getFridgeInventory(){
     $getAll = 'select * from products where'
 }

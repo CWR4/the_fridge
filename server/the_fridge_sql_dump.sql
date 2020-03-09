@@ -16,6 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `fridges`
+--
+
+DROP TABLE IF EXISTS `fridges`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `fridges` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(35) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `id` (`id`),
+  UNIQUE KEY `fridges_unique` (`id`,`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `fridges`
+--
+
+LOCK TABLES `fridges` WRITE;
+/*!40000 ALTER TABLE `fridges` DISABLE KEYS */;
+INSERT INTO `fridges` VALUES (8,'MyFridge'),(11,'MyFridge2');
+/*!40000 ALTER TABLE `fridges` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `products`
 --
 
@@ -27,7 +54,11 @@ CREATE TABLE `products` (
   `amount` int(11) NOT NULL,
   `always_avaiable` tinyint(1) NOT NULL,
   `min_amount` int(11) NOT NULL,
-  PRIMARY KEY (`name`)
+  `fridge_id` int(11) NOT NULL,
+  `purchased` tinyint(1) NOT NULL,
+  PRIMARY KEY (`name`),
+  KEY `fridge_id` (`fridge_id`),
+  CONSTRAINT `products_ibfk_1` FOREIGN KEY (`fridge_id`) REFERENCES `fridges` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -49,4 +80,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-03 18:53:24
+-- Dump completed on 2020-03-09 20:19:09
