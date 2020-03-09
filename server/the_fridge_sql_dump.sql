@@ -52,7 +52,7 @@ DROP TABLE IF EXISTS `products`;
 CREATE TABLE `products` (
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `amount` int(11) NOT NULL,
-  `always_avaiable` tinyint(1) NOT NULL,
+  `always_available` tinyint(1) NOT NULL,
   `min_amount` int(11) NOT NULL,
   `fridge_id` int(11) NOT NULL,
   `purchased` tinyint(1) NOT NULL,

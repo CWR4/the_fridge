@@ -70,13 +70,20 @@ function upsertProduct(payload){
     })
 }
 
+function getFridges() {
+    $getFridges = mysql.createQuery('select * from fridges');
+    //$getFridges = 'select * from fridges';
+    db.executeQuery(connection, $getFridges, (results) => {
+        console.log(results);
+    });
+}
+
+getFridges();
 //createNewFridge("MyFridge2");
 //deleteFridge("MyFridge2");
-upsertProduct({fridge_id:7,product:{name:"milch",amount:2,always_avaiable:true,min_amount:1}})
 db.endConnection(connection);
 
-function getFridgeInventory(){
-    $getAll = 'select * from products where'
+function getFridgeInventory(fridgeId){
 }
 
 

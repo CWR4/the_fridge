@@ -29,7 +29,7 @@ function executeQuery(connection, query, callback) {
             return;
         } else {
             console.log("Query succesfull");
-            // console.log(rows);
+            console.log(rows);
             return callback(rows);
         }
     });
