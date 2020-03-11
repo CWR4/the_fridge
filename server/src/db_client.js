@@ -93,17 +93,18 @@ function deleteProduct(payload){
     );
 }
 
-function getFridgeInventory(fridgeName){
+function getFridgeInventory(fridgeName, callback){
     $getFridgeInventory = 'select p.* from products as p, fridges as f where f.name = ? and f.id = p.fridge_id and p.amount > 0;';
     queryParams = [
         fridgeName,
     ];
-    db.executeQuery(
+    return db.executeQuery(
         connection,
         $getFridgeInventory,
         queryParams,
         (products) => {
-            console.log(products)
+            console.log(products);
+            return products;
         }
     );
 }
