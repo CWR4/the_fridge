@@ -22,14 +22,14 @@ function connectToDatabase() {
     return connection;
 }
 
-function executeQuery(connection, query, callback) {
-    connection.query(query, function (error, rows, field) {
+function executeQuery(connection, query, queryParams, callback) {
+    connection.query(query, queryParams, function (error, rows, field) {
         if (error) {
             console.log(error);
             return;
         } else {
             console.log("Query succesfull");
-            console.log(rows);
+            // console.log(rows);
             return callback(rows);
         }
     });
