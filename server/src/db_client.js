@@ -3,14 +3,24 @@ const mysql = require('mysql');
 
 const connection = db.connectToDatabase();
 
-function createNewFridge(fridgeName){
+function createNewFridge(fridgeName, callback){
     $createFridgeQuery = 'insert into fridges (`name`) values (?);';
-    db.executeQuery(connection, $createFridgeQuery, [fridgeName], () => {});
+    db.executeQuery(
+        connection,
+        $createFridgeQuery,
+        [
+            fridgeName
+        ],
+        (error) => {
+            callback(error);
+        });
 }
 
-function deleteFridge(fridgeName) {
+function deleteFridge(fridgeName, callback) {
     $deleteFridge = 'delete from fridges where `name` = ?;'
-    db.executeQuery(connection, $deleteFridge, [fridgeName], () => {});
+    db.executeQuery(connection, $deleteFridge, [fridgeName], (error) => {
+        callback(error);
+    });
 }
 
 function upsertProduct(payload){
@@ -69,10 +79,11 @@ function updateProduct(payload) {
     )
 }
 
-function getFridges() {
+function getFridges(callback) {
     $getFridges = 'select * from fridges;';
     db.executeQuery(connection, $getFridges, [], (results) => {
         console.log(results);
+        return callback(results);
     });
 }
 
@@ -98,18 +109,17 @@ function getFridgeInventory(fridgeName, callback){
     queryParams = [
         fridgeName,
     ];
-    return db.executeQuery(
+    db.executeQuery(
         connection,
         $getFridgeInventory,
         queryParams,
         (products) => {
-            console.log(products);
-            return products;
+            callback(products);
         }
     );
 }
 
-function getShoppingList(fridgeId) {
+function getShoppingList(fridgeId, callback) {
     $getShoppingList = 'select * from products where fridge_id = ? and amount_to_buy > 0;';
     queryParams = [
         fridgeId,
@@ -119,7 +129,7 @@ function getShoppingList(fridgeId) {
         $getShoppingList,
         queryParams,
         (products) => {
-            console.log(products)
+            callback(products);
         }
     );
 }

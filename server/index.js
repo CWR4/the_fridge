@@ -8,18 +8,32 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/api/getFridgeInventory', async (req, res) => {
-    const products = await db.getFridgeInventory(req.body.name);
-    console.log(products);
-    res.json(products);
+app.post('/api/createFridge', (req, res) => {
+    db.createNewFridge(req.body.name, (error) => {
+        if(error.errno == 1062) {
+            res.sendStatus(409);
+        } else if(error.errno == undefined) {
+            res.sendStatus(200);
+        } else {
+            res.sendStatus(500);
+        }
+    });
 });
 
-app.get('/hallo', (req, res) => {
-    res.send('Hallo du');
+app.post('/api/getFridgeInventory', (req, res) => {
+    db.getFridgeInventory(req.body.name, (products) => {
+        res.json(products);
+    })
 });
 
-app.post('/du', (req, res) => {
-    console.log(req.body);
+app.post('/api/getFridgeShoppingList', (req, res) => {
+    db.getShoppingList(req.body.fridge_id, (products) => {
+        res.json(products);
+    })
+});
+
+app.post('/api/upsertProduct', (req, res) => {
+    db.upsertProduct(req.body);
     res.sendStatus(200);
 });
 

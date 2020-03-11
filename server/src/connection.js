@@ -26,11 +26,10 @@ function executeQuery(connection, query, queryParams, callback) {
     connection.query(query, queryParams, function (error, rows, field) {
         if (error) {
             console.log(error);
-            return;
+            callback(error);
         } else {
             console.log("Query succesfull");
-            // console.log(rows);
-            return callback(rows);
+            callback(rows);
         }
     });
 }
