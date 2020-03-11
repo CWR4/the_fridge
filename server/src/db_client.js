@@ -21,43 +21,53 @@ function upsertProduct(payload){
     ];
     db.executeQuery(connection, $findProduct, queryParams, (product) => {
         if(product.length == 0) {
-            $insertProduct = 'insert into products (name, amount, always_available, min_amount, fridge_id, purchased) values (?,?,?,?,?,?)';
-            queryParams = [
-                payload.product.name,
-                payload.product.amount,
-                payload.product.always_available,
-                payload.product.min_amount,
-                payload.fridge_id,
-                payload.product.purchased,
-            ];
-            db.executeQuery(
-                connection,
-                $insertProduct,
-                queryParams,
-                (error) => {
-                console.log(error);
-            });
+            insertProduct(payload);
         } else {
-            $updateProduct = 'update products set amount = ?, always_available = ?, min_amount = ? WHERE name = ? AND fridge_id = ?';
-            queryParams = [
-                payload.product.amount,
-                payload.product.always_available,
-                payload.product.min_amount,
-                payload.product.name,
-                payload.fridge_id
-            ];
-            db.executeQuery(
-                connection,
-                $updateProduct,
-                queryParams,
-                (error) => {
-                    console.log(error);
-                }
-            )
+            updateProduct(payload);
         }
     })
 }
 
+function insertProduct(payload) {
+    $insertProduct = 'insert into products (name, amount, always_available, min_amount, fridge_id, purchased, amount_to_buy) values (?,?,?,?,?,?,?)';
+    queryParams = [
+        payload.product.name,
+        payload.product.amount,
+        payload.product.always_available,
+        payload.product.min_amount,
+        payload.fridge_id,
+        payload.product.purchased,
+        payload.product.amount_to_buy,
+    ];
+    db.executeQuery(
+        connection,
+        $insertProduct,
+        queryParams,
+        (error) => {
+            console.log(error);
+        });
+}
+
+function updateProduct(payload) {
+    $updateProduct = 'update products set amount = ?, always_available = ?, min_amount = ?, purchased = ?, amount_to_buy = ? WHERE name = ? AND fridge_id = ?';
+    queryParams = [
+        payload.product.amount,
+        payload.product.always_available,
+        payload.product.min_amount,
+        payload.product.purchased,
+        payload.product.amount_to_buy,
+        payload.product.name,
+        payload.fridge_id
+    ];
+    db.executeQuery(
+        connection,
+        $updateProduct,
+        queryParams,
+        (error) => {
+            console.log(error);
+        }
+    )
+}
 
 function getFridges() {
     $getFridges = 'select * from fridges;';
@@ -113,15 +123,15 @@ function getShoppingList(fridgeId) {
     );
 }
 
-//getShoppingList(8);
-//getFridgeInventory("MyFridge")
-//deleteProduct({fridge_id:8,product:{name:"butter",amount:8,always_available:true,min_amount:1,purchased:true}})
-//getFridges();
-//createNewFridge("MyFridge2");
-//deleteFridge("MyFridge2");
-//upsertProduct({fridge_id:8,product:{name:"butter",amount:8,always_available:true,min_amount:1,purchased:true}})
-//db.endConnection(connection);
-
-
+module.exports = {
+    createNewFridge,
+    deleteFridge,
+    upsertProduct,
+    insertProduct,
+    updateProduct,
+    deleteProduct,
+    getFridgeInventory,
+    getShoppingList,
+};
 
 
