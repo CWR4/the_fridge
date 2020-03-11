@@ -58,6 +58,7 @@ function upsertProduct(payload){
     })
 }
 
+
 function getFridges() {
     $getFridges = 'select * from fridges;';
     db.executeQuery(connection, $getFridges, [], (results) => {
@@ -65,28 +66,62 @@ function getFridges() {
     });
 }
 
-//getFridges();
-//createNewFridge("MyFridge2");
-//deleteFridge("MyFridge2");
-upsertProduct({fridge_id:8,product:{name:"butter",amount:8,always_available:true,min_amount:1,purchased:true}})
-//db.endConnection(connection);
-
-function getFridgeInventory(fridgeId){
-}
-
-
-function deleteProduct(product){
+function deleteProduct(payload){
     $deleteProduct = 'delete from products where name = ? AND fridge_id = ?';
+    queryParams = [
+        payload.product.name,
+        payload.fridge_id,
+    ];
 
     db.executeQuery(
         connection,
         $deleteProduct,
-        [
-            payload.product.name,
-            payload.fridge_id,
-        ],
+        queryParams,
         (error) => {
             console.log(error);
         }
     );
 }
+
+function getFridgeInventory(fridgeName){
+    $getFridgeInventory = 'select p.* from products as p, fridges as f where f.name = ? and f.id = p.fridge_id and p.amount > 0;';
+    queryParams = [
+        fridgeName,
+    ];
+    db.executeQuery(
+        connection,
+        $getFridgeInventory,
+        queryParams,
+        (products) => {
+            console.log(products)
+        }
+    );
+}
+
+function getShoppingList(fridgeId) {
+    $getShoppingList = 'select * from products where fridge_id = ? and amount_to_buy > 0;';
+    queryParams = [
+        fridgeId,
+    ];
+    db.executeQuery(
+        connection,
+        $getShoppingList,
+        queryParams,
+        (products) => {
+            console.log(products)
+        }
+    );
+}
+
+//getShoppingList(8);
+//getFridgeInventory("MyFridge")
+//deleteProduct({fridge_id:8,product:{name:"butter",amount:8,always_available:true,min_amount:1,purchased:true}})
+//getFridges();
+//createNewFridge("MyFridge2");
+//deleteFridge("MyFridge2");
+//upsertProduct({fridge_id:8,product:{name:"butter",amount:8,always_available:true,min_amount:1,purchased:true}})
+//db.endConnection(connection);
+
+
+
+
