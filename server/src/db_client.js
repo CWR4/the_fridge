@@ -144,5 +144,3 @@ module.exports = {
     getFridgeInventory,
     getShoppingList,
 };
-
-
