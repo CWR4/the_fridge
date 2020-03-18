@@ -1,19 +1,25 @@
 const db = require('./connection');
-const mysql = require('mysql');
-
 const connection = db.connectToDatabase();
-
-function createNewFridge(fridgeName, callback){
-    $createFridgeQuery = 'insert into fridges (`name`) values (?);';
-    db.executeQuery(
-        connection,
-        $createFridgeQuery,
-        [
-            fridgeName
-        ],
-        (error) => {
-            callback(error);
+function getAllBlogPosts() {
+    return new Promise((resolve, reject) => {
+        $getAllBlogPosts = 'select * from blog_posts order by time desc';
+        connection.query($getAllBlogPosts, function (error, rows, field) {
+            console.log(rows);
+            resolve(rows);
         });
+    });
+}
+function createNewFridge(fridgeName){
+    return new Promise((resolve, reject) => {
+        $createFridgeQuery = 'insert into fridges (`name`) values (?);';
+        connection.query($createFridgeQuery, fridgeName, (error, result) => {
+            if (!error) {
+                resolve('Fridge created');
+            } else if (error){
+                reject(new Error('Fridge not created!'));
+            }
+        })
+    })
 }
 
 function deleteFridge(fridgeName, callback) {

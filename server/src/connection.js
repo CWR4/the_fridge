@@ -6,7 +6,7 @@ function connectToDatabase() {
         host: 'localhost',
         port: '3306',
         user: 'root',
-        password: 'root',
+        password: 'hurg3649',
         database: 'the_fridge'
     });
 
@@ -22,18 +22,6 @@ function connectToDatabase() {
     return connection;
 }
 
-function executeQuery(connection, query, queryParams, callback) {
-    connection.query(query, queryParams, function (error, rows, field) {
-        if (error) {
-            console.log(error);
-            callback(error);
-        } else {
-            console.log("Query succesfull");
-            callback(rows);
-        }
-    });
-}
-
 function endConnection(connection) {
     connection.end(function() {
         console.log("Connection closed");
@@ -42,6 +30,5 @@ function endConnection(connection) {
 
 module.exports = {
     connectToDatabase,
-    executeQuery,
-    endConnection
+    endConnection,
 };

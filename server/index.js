@@ -9,14 +9,16 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.post('/api/createFridge', (req, res) => {
-    db.createNewFridge(req.body.name, (error) => {
-        if(error.errno == 1062) {
-            res.sendStatus(409);
-        } else if(error.errno == undefined) {
+    db.createNewFridge(req.body.name).then((result) => {
+        if (result == 'Fridge created'){
+            console.log(result);
             res.sendStatus(200);
         } else {
+            //ToDo: response bei error senden?
             res.sendStatus(500);
         }
+    }).catch((error) => {
+        console.error(error);
     });
 });
 
