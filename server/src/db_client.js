@@ -1,14 +1,6 @@
 const db = require('./connection');
 const connection = db.connectToDatabase();
-function getAllBlogPosts() {
-    return new Promise((resolve, reject) => {
-        $getAllBlogPosts = 'select * from blog_posts order by time desc';
-        connection.query($getAllBlogPosts, function (error, rows, field) {
-            console.log(rows);
-            resolve(rows);
-        });
-    });
-}
+
 function createNewFridge(fridgeName){
     return new Promise((resolve, reject) => {
         $createFridgeQuery = 'insert into fridges (`name`) values (?);';
@@ -19,14 +11,24 @@ function createNewFridge(fridgeName){
             } else if (error){
                 reject(error);
             }
-        })
-    })
+        });
+    });
 }
 
-function deleteFridge(fridgeName, callback) {
-    $deleteFridge = 'delete from fridges where `name` = ?;'
-    db.executeQuery(connection, $deleteFridge, [fridgeName], (error) => {
-        callback(error);
+function deleteFridge(fridgeName) {
+    return new Promise((resolve, reject) => {
+        $deleteFridge = 'delete from fridges where `name` = ?;';
+        // deleting doesn't throw an error if there is no record to delete
+        // but affectedRows is 0 in this case, hence the following error-handling
+        connection.query($deleteFridge, fridgeName, (error, result) => {
+            if (result.affectedRows != 0) {
+                result.message = "Fridge deleted: " + fridgeName;
+                resolve(result);
+            } else if (result.affectedRows === 0) {
+                result.message = "Unsuccessful";
+                reject(result);
+            }
+        });
     });
 }
 

@@ -22,6 +22,18 @@ app.post('/api/createFridge', (req, res) => {
     });
 });
 
+app.post('/api/deleteFridge', (req, res) => {
+    db.deleteFridge(req.body.name).then((result) => {
+        console.log(result);
+        res.sendStatus(200);
+    }).catch((error) => {
+        res.status(500).json({
+            message: error.message,
+        });
+        console.error(error);
+    });
+});
+
 app.post('/api/getFridgeInventory', (req, res) => {
     db.getFridgeInventory(req.body.name, (products) => {
         res.json(products);
