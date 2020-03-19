@@ -14,9 +14,10 @@ function createNewFridge(fridgeName){
         $createFridgeQuery = 'insert into fridges (`name`) values (?);';
         connection.query($createFridgeQuery, fridgeName, (error, result) => {
             if (!error) {
-                resolve('Fridge created');
+                result.message = "Fridge created: " + fridgeName;
+                resolve(result);
             } else if (error){
-                reject(new Error('Fridge not created!'));
+                reject(error);
             }
         })
     })

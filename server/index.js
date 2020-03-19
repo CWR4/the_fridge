@@ -10,14 +10,14 @@ app.use(cors());
 
 app.post('/api/createFridge', (req, res) => {
     db.createNewFridge(req.body.name).then((result) => {
-        if (result == 'Fridge created'){
-            console.log(result);
-            res.sendStatus(200);
-        } else {
-            //ToDo: response bei error senden?
-            res.sendStatus(500);
-        }
+        console.log(result);
+        res.sendStatus(200);
     }).catch((error) => {
+        res.status(500).json({
+            code: error.code,
+            error: error.errno,
+            message: error.sqlMessage,
+             });
         console.error(error);
     });
 });
