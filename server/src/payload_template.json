@@ -1,0 +1,11 @@
+{
+    "fridge_id": "id",
+    "product":{
+        "name": "",
+        "amount": 0,
+        "always_available": "false",
+        "min_amount": 0,
+        "purchased": "false",
+        "amount_to_buy": 0
+    }
+}

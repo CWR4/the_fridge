@@ -6,7 +6,7 @@ function connectToDatabase() {
         host: 'localhost',
         port: '3306',
         user: 'root',
-        password: 'root',
+        password: 'hurg3649',
         database: 'the_fridge'
     });
 
