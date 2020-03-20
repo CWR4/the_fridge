@@ -1,5 +1,5 @@
 {
-    "fridge_id": "id",
+    "fridge_id": 0,
     "product":{
         "name": "",
         "amount": 0,
