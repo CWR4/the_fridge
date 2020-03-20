@@ -48,6 +48,18 @@ app.post('/api/upsertProduct', (req, res) => {
     });
 });
 
+app.post('/api/deleteProduct', (req, res) => {
+    db.deleteProduct(req.body).then((result) => {
+        console.log(result);
+        res.sendStatus(200);
+    }).catch((error) => {
+        res.status(500).json({
+            message: error.message,
+        });
+        console.error(error);
+    });
+})
+
 app.post('/api/getFridgeInventory', (req, res) => {
     db.getFridgeInventory(req.body.name, (products) => {
         res.json(products);

@@ -107,29 +107,38 @@ function updateProduct(payload) {
     });
 }
 
-function getFridges(callback) {
-    $getFridges = 'select * from fridges;';
-    db.executeQuery(connection, $getFridges, [], (results) => {
-        console.log(results);
-        return callback(results);
+function getFridges() {
+    return new Promise((resolve, reject) => {
+        $getFridges = 'select * from fridges;';
+        connection.query($getFridges, (error, result) => {
+            if (!error) {
+                resolve(result);
+            } else if (error) {
+                reject(error);
+            }
+        });
     });
 }
 
 function deleteProduct(payload){
-    $deleteProduct = 'delete from products where name = ? AND fridge_id = ?';
-    queryParams = [
-        payload.product.name,
-        payload.fridge_id,
-    ];
-
-    db.executeQuery(
-        connection,
-        $deleteProduct,
-        queryParams,
-        (error) => {
-            console.log(error);
-        }
-    );
+    return new Promise((resolve, reject) => {
+        $deleteProduct = 'delete from products where name = ? AND fridge_id = ?';
+        queryParams = [
+            payload.product.name,
+            payload.fridge_id,
+        ];
+        // deleting doesn't throw an error if there is no record to delete
+        // but affectedRows is 0 in this case, hence the following error-handling
+        connection.query($deleteProduct, queryParams, (error, result) => {
+            if (result.affectedRows != 0) {
+                result.message = "Product deleted: " + payload.product.name;
+                resolve(result);
+            } else if (result.affectedRows === 0) {
+                result.message = "Unsuccessful";
+                reject(result);
+            }
+        });
+    });
 }
 
 function getFridgeInventory(fridgeName, callback){
