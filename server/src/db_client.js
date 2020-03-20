@@ -141,19 +141,20 @@ function deleteProduct(payload){
     });
 }
 
-function getFridgeInventory(fridgeName, callback){
-    $getFridgeInventory = 'select p.* from products as p, fridges as f where f.name = ? and f.id = p.fridge_id and p.amount > 0;';
-    queryParams = [
-        fridgeName,
-    ];
-    db.executeQuery(
-        connection,
-        $getFridgeInventory,
-        queryParams,
-        (products) => {
-            callback(products);
-        }
-    );
+function getFridgeInventory(fridgeName){
+    return new Promise((resolve, reject) => {
+        $getFridgeInventory = 'select p.* from products as p, fridges as f where f.name = ? and f.id = p.fridge_id and p.amount > 0;';
+        connection.query($getFridgeInventory, fridgeName, (error, result) => {
+            if (!error && result.length != 0) {
+                resolve(result);
+            } else if (!error && result.length === 0) {
+                result.message = "Unsuccessful";
+                reject(result);
+            } else if (error) {
+                reject(error);
+            }
+        });
+    });
 }
 
 function getShoppingList(fridgeId, callback) {
