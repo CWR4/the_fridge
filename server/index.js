@@ -75,12 +75,20 @@ app.get('/api/getFridgeInventory', (req, res) => {
     });
 });
 
-app.post('/api/getFridgeShoppingList', (req, res) => {
-    db.getShoppingList(req.body.fridge_id, (products) => {
-        res.json(products);
-    })
+app.get('/api/getFridgeShoppingList', (req, res) => {
+    db.getShoppingList(req.body.fridge_id).then((result) => {
+        console.log(result);
+        res.json(result);
+    }).catch((error) => {
+        res.status(500).json({
+            code: error.code,
+            error: error.errno,
+            sqlMessage: error.sqlMessage,
+            message: error.message,
+        });
+        console.error(error);
+    });
 });
-
 
 app.listen(8000, () => {
     console.log('Listening to port 8000');
