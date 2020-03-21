@@ -21,12 +21,14 @@ function deleteFridge(fridgeName) {
         // deleting doesn't throw an error if there is no record to delete
         // but affectedRows is 0 in this case, hence the following error-handling
         connection.query($deleteFridge, fridgeName, (error, result) => {
-            if (result.affectedRows != 0) {
+            if (!error && result.affectedRows != 0) {
                 result.message = "Fridge deleted: " + fridgeName;
                 resolve(result);
-            } else if (result.affectedRows === 0) {
+            } else if (!error && result.affectedRows === 0) {
                 result.message = "Unsuccessful";
                 reject(result);
+            } else if (error) {
+                reject(error);
             }
         });
     });
@@ -130,12 +132,14 @@ function deleteProduct(payload){
         // deleting doesn't throw an error if there is no record to delete
         // but affectedRows is 0 in this case, hence the following error-handling
         connection.query($deleteProduct, queryParams, (error, result) => {
-            if (result.affectedRows != 0) {
+            if (!error && result.affectedRows != 0) {
                 result.message = "Product deleted: " + payload.product.name;
                 resolve(result);
-            } else if (result.affectedRows === 0) {
+            } else if (!error && result.affectedRows === 0) {
                 result.message = "Unsuccessful";
                 reject(result);
+            } else if (error) {
+                reject(error);
             }
         });
     });
