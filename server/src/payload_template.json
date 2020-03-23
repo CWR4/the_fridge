@@ -3,9 +3,9 @@
     "product":{
         "name": "",
         "amount": 0,
-        "always_available": "false",
+        "always_available": 0,
         "min_amount": 0,
-        "purchased": "false",
+        "purchased": 0,
         "amount_to_buy": 0
     }
 }

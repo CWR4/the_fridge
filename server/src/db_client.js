@@ -4,7 +4,10 @@ const connection = db.connectToDatabase();
 function createNewFridge(fridgeName){
     return new Promise((resolve, reject) => {
         $createFridgeQuery = 'insert into fridges (`name`) values (?);';
-        connection.query($createFridgeQuery, fridgeName, (error, result) => {
+        queryParams = [
+            fridgeName,
+        ]
+        connection.query($createFridgeQuery, queryParams, (error, result) => {
             if (!error) {
                 result.message = "Fridge created: " + fridgeName;
                 resolve(result);
@@ -18,9 +21,12 @@ function createNewFridge(fridgeName){
 function deleteFridge(fridgeName) {
     return new Promise((resolve, reject) => {
         $deleteFridge = 'delete from fridges where `name` = ?;';
+        queryParams = [
+            fridgeName,
+        ]
         // deleting doesn't throw an error if there is no record to delete
         // but affectedRows is 0 in this case, hence the following error-handling
-        connection.query($deleteFridge, fridgeName, (error, result) => {
+        connection.query($deleteFridge, queryParams, (error, result) => {
             if (!error && result.affectedRows != 0) {
                 result.message = "Fridge deleted: " + fridgeName;
                 resolve(result);
@@ -148,7 +154,10 @@ function deleteProduct(payload){
 function getFridgeInventory(fridgeName){
     return new Promise((resolve, reject) => {
         $getFridgeInventory = 'select p.* from products as p, fridges as f where f.name = ? and f.id = p.fridge_id and p.amount > 0;';
-        connection.query($getFridgeInventory, fridgeName, (error, result) => {
+        queryParams = [
+            fridgeName,
+        ]
+        connection.query($getFridgeInventory, queryParams, (error, result) => {
             if (!error && result.length != 0) {
                 resolve(result);
             } else if (!error && result.length === 0) {
@@ -164,7 +173,10 @@ function getFridgeInventory(fridgeName){
 function getShoppingList(fridgeId) {
     return new Promise((resolve, reject) => {
         $getShoppingList = 'select * from products where fridge_id = ? and amount_to_buy > 0;';
-        connection.query($getShoppingList, fridgeId, (error, result) => {
+        queryParams = [
+            fridgeId,
+        ]
+        connection.query($getShoppingList, queryParams, (error, result) => {
             if (!error && result.length != 0) {
                 resolve(result);
             } else if (!error && result.length === 0) {
