@@ -4,11 +4,12 @@ function connectToDatabase() {
 
     const connection = mysql.createConnection({
         host: 'localhost',
-        user: 'standard_user',
-        password: '',
+        port: '3306',
+        user: 'root',
+        password: 'root',
         database: 'the_fridge'
     });
-    
+
     connection.connect(function (error) {
         if (error) {
             console.log(error.code);
@@ -21,6 +22,13 @@ function connectToDatabase() {
     return connection;
 }
 
+function endConnection(connection) {
+    connection.end(function() {
+        console.log("Connection closed");
+    });
+}
 
-module.exports = connectToDatabase;
-
+module.exports = {
+    connectToDatabase,
+    endConnection,
+};

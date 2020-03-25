@@ -1,28 +1,93 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const executeQuery = require('./src/products');
+const db = require('./src/db_client');
+
 const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
 
-const showAllProducts = "select * from products";
-
-app.get('/api/getAll', async (req, res) => {
-    executeQuery(showAllProducts, function(products){
-        console.log(products);
-    })
-    res.sendStatus(200);
+app.post('/api/createFridge', (req, res) => {
+    db.createNewFridge(req.body.name).then((result) => {
+        console.log(result);
+        res.sendStatus(200);
+    }).catch((error) => {
+        res.status(500).json({
+            code: error.code,
+            error: error.errno,
+            message: error.sqlMessage,
+             });
+        console.error(error);
+    });
 });
 
-app.get('/hallo', (req, res) => {
-    res.send('Hallo du');
+app.post('/api/deleteFridge', (req, res) => {
+    db.deleteFridge(req.body.name).then((result) => {
+        console.log(result);
+        res.sendStatus(200);
+    }).catch((error) => {
+        res.status(500).json({
+            message: error.message,
+        });
+        console.error(error);
+    });
 });
 
-app.post('/du', (req, res) => {
-    console.log(req.body);
-    res.sendStatus(200);
+app.post('/api/upsertProduct', (req, res) => {
+    db.upsertProduct(req.body).then((result) => {
+        console.log(result);
+        res.sendStatus(200);
+    }).catch((error) => {
+        res.status(500).json({
+            code: error.code,
+            error: error.errno,
+            message: error.sqlMessage,
+        });
+        console.error(error);
+    });
+});
+
+app.post('/api/deleteProduct', (req, res) => {
+    db.deleteProduct(req.body).then((result) => {
+        console.log(result);
+        res.sendStatus(200);
+    }).catch((error) => {
+        res.status(500).json({
+            message: error.message,
+        });
+        console.error(error);
+    });
+})
+
+app.get('/api/getFridgeInventory', (req, res) => {
+    db.getFridgeInventory(req.body.name).then((result) => {
+        console.log(result);
+        res.json(result);
+    }).catch((error) => {
+        res.status(500).json({
+            code: error.code,
+            error: error.errno,
+            sqlMessage: error.sqlMessage,
+            message: error.message,
+        });
+        console.error(error);
+    });
+});
+
+app.get('/api/getFridgeShoppingList', (req, res) => {
+    db.getShoppingList(req.body.fridge_id).then((result) => {
+        console.log(result);
+        res.json(result);
+    }).catch((error) => {
+        res.status(500).json({
+            code: error.code,
+            error: error.errno,
+            sqlMessage: error.sqlMessage,
+            message: error.message,
+        });
+        console.error(error);
+    });
 });
 
 app.listen(8000, () => {
