@@ -5,8 +5,8 @@ function connectToDatabase() {
     const connection = mysql.createConnection({
         host: 'localhost',
         port: '3306',
-        user: 'admin',
-        password: 'admin',
+        user: 'root',
+        password: 'root',
         database: 'the_fridge'
     });
 
