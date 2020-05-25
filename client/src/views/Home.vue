@@ -11,7 +11,9 @@ import HelloWorld from '@/components/HelloWorld.vue';
 import axios from 'axios';
 
 axios.get('http://localhost:8000/api/getFridgeInventory?name=fridge1').then((result) => {
-  console.log(result);
+  result.data.forEach((item) => {
+    console.log(item.name);
+  });
 });
 
 export default {
