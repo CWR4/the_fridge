@@ -1,22 +1,40 @@
 <template>
-<h1>Products works!</h1>
+<div>
+    <h1>Products works!</h1>
+    <ul>
+        <li v-for="product in products" :key="product._id">
+            Produkt: {{ product.name }} |
+            Menge: {{product.amount }}
+        </li>
+    </ul>
+</div>
+
 </template>
 
 <script>
-// @ is an alias to /src
+// @ is ant alias to /src
 
 import axios from 'axios';
 
-axios.get('http://localhost:8000/api/getFridgeInventory?name=fridge1').then((result) => {
-  result.data.forEach((item) => {
-    console.log(item.name);
-  });
-});
-
 export default {
   name: 'Home',
-  components: {
-
+  data: () => ({
+    products: [],
+    product: {
+      id: '',
+      name: '',
+      amount: '',
+      alwaysAvailable: '',
+      minAmount: '',
+      fridgeId: '',
+      purchased: '',
+      amountToBuy: '',
+    },
+  }),
+  mounted() {
+    axios.get('http://localhost:8000/api/getFridgeInventory?name=fridge1').then((result) => {
+      this.products = result.data;
+    });
   },
 };
 </script>
