@@ -23,7 +23,7 @@ export default class EnterFridgeName extends Vue {
     background-color: #0F7195;
     width: 320px;
     height: 320px;
-    margin-top: 150px;
+    margin-top: 10%;
     margin-left: auto;
     margin-right: auto;
     border-radius: 50%;
