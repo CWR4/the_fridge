@@ -37,20 +37,17 @@ export default class EnterFridgeName extends Vue {
         font-size: 80px;
         margin: 0;
     }
-    p{
+    p {
         margin: 0;
-
-        #the {
-            font-size: 25px;
-        }
-        #end {
-            position: relative;
-            right: 98px;
-            top: 30px;
-            font-size: 24px;
-            color: rgba(255, 255, 255, 0.65)
-
-        }
+    }
+    #the {
+        position: relative;
+        right: 98px;
+        top: 30px;
+        font-size: 24px;
+    }
+    #end {
+        color: rgba(255, 255, 255, 0.65)
     }
 }
 </style>
