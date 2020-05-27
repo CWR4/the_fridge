@@ -23,7 +23,7 @@
 
 <script>
 import axios from 'axios';
-// TODO: Set cookie
+
 export default {
   name: 'EnterFridgeName',
   data: () => ({
