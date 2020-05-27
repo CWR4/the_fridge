@@ -9,9 +9,12 @@
         <input type="text"
         class="form-control fridge-name-input"
         placeholder="FRIDGE NAME"
-        v-model="fridgeName">
-        <p v-if="fridgeExists">Please choose another name</p>
-        <p v-if="errorOnFridgeEntry">Sorry, please try again</p>
+        v-model="fridgeName"
+        @keydown.space.prevent
+        required>
+        <p v-if="isFridgeExistent">Please choose another name</p>
+        <p v-if="isErrorThrown">Sorry, please try again</p>
+        <p v-if="isWhiteSpaceInInput">No whitespace allowed</p>
         <button type="button" v-on:click="createNewFridge" class="btn btn-primary standard-fridge-button">NEW FRIDGE</button>
         <button type="button" v-on:click="openFridge" class="btn btn-primary standard-fridge-button">OPEN FRIDGE</button>
     </div>
@@ -23,8 +26,9 @@ import axios from 'axios';
 export default {
   name: 'EnterFridgeName',
   data: () => ({
-    fridgeExists: false,
-    errorOnFridgeEntry: false,
+    isFridgeExistent: false,
+    isErrorThrown: false,
+    isWhiteSpaceInInput: false,
     fridgeName: '',
     fridgeNames: [],
   }),
@@ -36,13 +40,19 @@ export default {
     });
   },
   methods: {
-    searchForFridge(name) {
-      return this.fridgeNames.find((element) => element === name);
+    checkOnWhiteSpaceInInput(inputForSpaceTest) {
+      this.isWhiteSpaceInInput = /\s/g.test(inputForSpaceTest);
+      this.isFridgeExistent = false;
+      return this.isWhiteSpaceInInput;
+    },
+    checkIfFridgeIsExistent(chosenFridgeName) {
+      this.isFridgeExistent = this.fridgeNames.find((element) => element === chosenFridgeName);
+      this.isWhiteSpaceInInput = false;
+      return this.isFridgeExistent;
     },
     createNewFridge() {
-      if (this.searchForFridge(this.fridgeName)) {
-        this.fridgeExists = true;
-      } else {
+      if (!this.checkOnWhiteSpaceInInput(this.fridgeName)
+      && !this.checkIfFridgeIsExistent(this.fridgeName)) {
         axios({
           method: 'post',
           url: 'http://localhost:8000/api/createFridge',
@@ -50,13 +60,14 @@ export default {
             name: this.fridgeName,
           },
         }).then((result) => {
-          this.fridgeExists = false;
-          this.errorOnFridgeEntry = false;
           console.log(result);
+          this.$router.push({ path: '/about' });
         }).catch((error) => {
           console.log(error);
-          this.errorOnFridgeEntry = true;
+          this.isErrorThrown = true;
         });
+      } else {
+        this.fridgeName = '';
       }
     },
     openFridge() {
