@@ -10,6 +10,8 @@
         class="form-control fridge-name-input"
         placeholder="FRIDGE NAME"
         v-model="fridgeName">
+        <p v-if="fridgeExists">Please choose another name</p>
+        <p v-if="errorOnFridgeEntry">Sorry, please try again</p>
         <button type="button" v-on:click="createNewFridge" class="btn btn-primary standard-fridge-button">NEW FRIDGE</button>
         <button type="button" v-on:click="openFridge" class="btn btn-primary standard-fridge-button">OPEN FRIDGE</button>
     </div>
@@ -17,31 +19,60 @@
 
 <script>
 import axios from 'axios';
-
+// TODO: Set cookie
 export default {
   name: 'EnterFridgeName',
   data: () => ({
+    fridgeExists: false,
+    errorOnFridgeEntry: false,
     fridgeName: '',
-    fridges: [],
+    fridgeNames: [],
   }),
   mounted() {
-    axios.get('localhost:8000/api/getFridges').then((result) => {
-      console.log(result);
+    axios.get('http://localhost:8000/api/getFridges').then((fridges) => {
+      fridges.data.forEach((fridge) => {
+        this.fridgeNames.push(fridge.name);
+      });
     });
   },
   methods: {
+    searchForFridge(name) {
+      return this.fridgeNames.find((element) => element === name);
+    },
     createNewFridge() {
-      console.log(this.fridgeName);
+      if (this.searchForFridge(this.fridgeName)) {
+        this.fridgeExists = true;
+      } else {
+        axios({
+          method: 'post',
+          url: 'http://localhost:8000/api/createFridge',
+          data: {
+            name: this.fridgeName,
+          },
+        }).then((result) => {
+          this.fridgeExists = false;
+          this.errorOnFridgeEntry = false;
+          console.log(result);
+        }).catch((error) => {
+          console.log(error);
+          this.errorOnFridgeEntry = true;
+        });
+      }
     },
     openFridge() {
       console.log(this.fridgeName);
     },
   },
 };
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+
+p {
+  color: white;
+}
 
 .fridge-circle {
     background-color: #0F7195;
