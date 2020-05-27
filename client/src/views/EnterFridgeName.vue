@@ -15,6 +15,7 @@
         <p v-if="isFridgeExistent">Please choose another name</p>
         <p v-if="isErrorThrown">Sorry, please try again</p>
         <p v-if="isWhiteSpaceInInput">No whitespace allowed</p>
+        <p v-if="isFridgeUnableToOpen">No such Fridge</p>
         <button type="button" v-on:click="createNewFridge" class="btn btn-primary standard-fridge-button">NEW FRIDGE</button>
         <button type="button" v-on:click="openFridge" class="btn btn-primary standard-fridge-button">OPEN FRIDGE</button>
     </div>
@@ -29,6 +30,7 @@ export default {
     isFridgeExistent: false,
     isErrorThrown: false,
     isWhiteSpaceInInput: false,
+    isFridgeUnableToOpen: false,
     fridgeName: '',
     fridgeNames: [],
   }),
@@ -45,6 +47,7 @@ export default {
       this.isWhiteSpaceInInput = /\s/g.test(inputForSpaceTest);
       this.isFridgeExistent = false;
       this.isErrorThrown = false;
+      this.isFridgeUnableToOpen = false;
       return this.isWhiteSpaceInInput;
     },
     /** checks if entered fridge name is already in use */
@@ -52,6 +55,7 @@ export default {
       this.isFridgeExistent = this.fridgeNames.find((element) => element === chosenFridgeName);
       this.isWhiteSpaceInInput = false;
       this.isErrorThrown = false;
+      this.isFridgeUnableToOpen = false;
       return this.isFridgeExistent;
     },
     /** Creates new fridge, sets cookie with fridge name and redirects to next page */
@@ -78,7 +82,15 @@ export default {
       }
     },
     openFridge() {
-      console.log(this.fridgeName);
+      if (!this.checkOnWhiteSpaceInInput(this.fridgeName)
+      && !this.checkIfFridgeIsExistent(this.fridgeName)) {
+        this.isFridgeUnableToOpen = true;
+        this.fridgeName = '';
+      } else if (!this.checkOnWhiteSpaceInInput(this.fridgeName)
+      && this.checkIfFridgeIsExistent(this.fridgeName)) {
+        document.cookie = `fridge=${this.fridgeName}`;
+        this.$router.push({ path: '/about' });
+      }
     },
   },
 };
