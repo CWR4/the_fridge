@@ -40,16 +40,21 @@ export default {
     });
   },
   methods: {
+    /** checks input for white space, returns true if true, false if false */
     checkOnWhiteSpaceInInput(inputForSpaceTest) {
       this.isWhiteSpaceInInput = /\s/g.test(inputForSpaceTest);
       this.isFridgeExistent = false;
+      this.isErrorThrown = false;
       return this.isWhiteSpaceInInput;
     },
+    /** checks if entered fridge name is already in use */
     checkIfFridgeIsExistent(chosenFridgeName) {
       this.isFridgeExistent = this.fridgeNames.find((element) => element === chosenFridgeName);
       this.isWhiteSpaceInInput = false;
+      this.isErrorThrown = false;
       return this.isFridgeExistent;
     },
+    /** Creates new fridge, sets cookie with fridge name and redirects to next page */
     createNewFridge() {
       if (!this.checkOnWhiteSpaceInInput(this.fridgeName)
       && !this.checkIfFridgeIsExistent(this.fridgeName)) {
@@ -60,11 +65,13 @@ export default {
             name: this.fridgeName,
           },
         }).then((result) => {
-          console.log(result);
-          this.$router.push({ path: '/about' });
+          if (result.status === 200) {
+            document.cookie = `fridge=${this.fridgeName}`;
+            this.$router.push({ path: '/about' });
+          }
         }).catch((error) => {
-          console.log(error);
           this.isErrorThrown = true;
+          console.log(error);
         });
       } else {
         this.fridgeName = '';
