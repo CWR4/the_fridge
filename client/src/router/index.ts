@@ -6,7 +6,7 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/enterFridgeName',
+    path: '/',
     name: 'EnterFridgeName',
     component: EnterFridgeName,
   },

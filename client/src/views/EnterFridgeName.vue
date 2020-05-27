@@ -1,21 +1,43 @@
 <template>
+    <!-- eslint-disable max-len -->
     <div class="enter-name-container">
         <div class="fridge-circle">
             <p id="the">the</p>
             <h1>Fridge</h1>
             <p id="end">The End of empty Fridges</p>
         </div>
-        <button type="button" class="btn btn-primary standard-fridge-button">NEW FRIDGE</button>
-        <button type="button" class="btn btn-primary standard-fridge-button">OPEN FRIDGE</button>
+        <input type="text"
+        class="form-control fridge-name-input"
+        placeholder="FRIDGE NAME"
+        v-model="fridgeName">
+        <button type="button" v-on:click="createNewFridge" class="btn btn-primary standard-fridge-button">NEW FRIDGE</button>
+        <button type="button" v-on:click="openFridge" class="btn btn-primary standard-fridge-button">OPEN FRIDGE</button>
     </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+<script>
+import axios from 'axios';
 
-@Component
-export default class EnterFridgeName extends Vue {
-}
+export default {
+  name: 'EnterFridgeName',
+  data: () => ({
+    fridgeName: '',
+    fridges: [],
+  }),
+  mounted() {
+    axios.get('localhost:8000/api/getFridges').then((result) => {
+      console.log(result);
+    });
+  },
+  methods: {
+    createNewFridge() {
+      console.log(this.fridgeName);
+    },
+    openFridge() {
+      console.log(this.fridgeName);
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -26,8 +48,9 @@ export default class EnterFridgeName extends Vue {
     width: 320px;
     height: 320px;
     margin-top: 10%;
-    margin-left: auto;
     margin-right: auto;
+    margin-bottom: 35px;
+    margin-left: auto;
     border-radius: 50%;
     border: 15px solid rgba(255, 235, 180, 0.56);
     display: flex;
@@ -53,13 +76,25 @@ export default class EnterFridgeName extends Vue {
     }
 }
 
+.fridge-name-input {
+    display: block;
+    margin: 10px auto;
+    width: 150px;
+    border-radius: 0.26rem;
+    border: 1px solid #2A9FD6;
+
+    &::placeholder {
+        color: rgba(0, 0, 0, 0.247);
+    }
+}
+
 .standard-fridge-button {
     color: white;
     background-color: #0F7195;
     transition: .3s ease-in-out;
     display: block;
     margin: 10px auto;
-    min-width: 150px;
+    width: 150px;
 
     &:hover {
         background-color: white;

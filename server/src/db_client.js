@@ -198,4 +198,5 @@ module.exports = {
     deleteProduct,
     getFridgeInventory,
     getShoppingList,
+    getFridges,
 };
