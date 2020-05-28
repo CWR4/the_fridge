@@ -32,6 +32,7 @@ export default {
     isErrorThrown: false,
     isWhiteSpaceInInput: false,
     isFridgeUnableToOpen: false,
+    fridgeStorageKey: 'userFridge',
     fridgeName: '',
     fridgeNames: [],
   }),
@@ -73,7 +74,7 @@ export default {
           },
         }).then((result) => {
           if (result.status === 200) {
-            document.cookie = `fridge=${this.fridgeName}`;
+            localStorage.setItem(this.fridgeStorageKey, this.fridgeName);
             this.$router.push({ path: '/about' });
           }
         }).catch((error) => {
@@ -91,7 +92,7 @@ export default {
         this.fridgeName = '';
       } else if (!this.checkOnWhiteSpaceInInput(this.fridgeName)
       && this.checkIfFridgeIsExistent(this.fridgeName)) {
-        document.cookie = `fridge=${this.fridgeName}`;
+        localStorage.setItem(this.fridgeStorageKey, this.fridgeName);
         this.$router.push({ path: '/about' });
       }
     },
