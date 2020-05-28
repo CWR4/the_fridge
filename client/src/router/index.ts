@@ -11,9 +11,9 @@ const routes = [
     component: EnterFridgeName,
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/About.vue'),
+    path: '/home',
+    name: 'Home',
+    component: () => import('../views/Home.vue'),
   },
 ];
 

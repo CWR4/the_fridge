@@ -75,7 +75,7 @@ export default {
         }).then((result) => {
           if (result.status === 200) {
             localStorage.setItem(this.fridgeStorageKey, this.fridgeName);
-            this.$router.push({ path: '/about' });
+            this.$router.push({ path: '/home' });
           }
         }).catch((error) => {
           this.isErrorThrown = true;
@@ -93,7 +93,7 @@ export default {
       } else if (!this.checkOnWhiteSpaceInInput(this.fridgeName)
       && this.checkIfFridgeIsExistent(this.fridgeName)) {
         localStorage.setItem(this.fridgeStorageKey, this.fridgeName);
-        this.$router.push({ path: '/about' });
+        this.$router.push({ path: '/home' });
       }
     },
   },

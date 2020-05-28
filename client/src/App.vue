@@ -8,8 +8,13 @@
 export default {
   mounted() {
     if (localStorage.getItem('userFridge') !== null && this.$router.currentRoute.path === '/') {
-      this.$router.push('/about');
+      this.$router.push('/home');
     }
+    window.onpopstate = () => {
+      if (localStorage.getItem('userFridge') !== null && this.$router.currentRoute.path === '/') {
+        this.$router.push('/home');
+      }
+    };
   },
 };
 </script>
