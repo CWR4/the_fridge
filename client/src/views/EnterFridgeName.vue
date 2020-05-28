@@ -11,6 +11,7 @@
         placeholder="FRIDGE NAME"
         v-model="fridgeName"
         @keydown.space.prevent
+        maxlength="34"
         required>
         <p v-if="isFridgeExistent">Please choose another name</p>
         <p v-if="isErrorThrown">Sorry, please try again</p>
@@ -44,7 +45,9 @@ export default {
   methods: {
     /** checks input for white space, returns true if true, false if false */
     checkOnWhiteSpaceInInput(inputForSpaceTest) {
-      this.isWhiteSpaceInInput = /\s/g.test(inputForSpaceTest);
+      if (/\s/g.test(inputForSpaceTest) || inputForSpaceTest.length < 0) {
+        this.isWhiteSpaceInInput = true;
+      }
       this.isFridgeExistent = false;
       this.isErrorThrown = false;
       this.isFridgeUnableToOpen = false;
