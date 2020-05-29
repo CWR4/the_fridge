@@ -2,26 +2,26 @@
     <!-- eslint-disable max-len -->
     <div class="home-container">
       <h1>Welcome to {{ fridgeName }}</h1>
-      <ul>
-        <li v-for="product in products" :key="product._name">
-            id: {{ product.id }} |
-            name: {{ product.name }} |
-            amount: {{ product.amount }} |
-            alwaysAvailable: {{ product.always_available }} |
-            minAmount: {{ product.min_amount }} |
-            fridgeId: {{ product.fridge_id }} |
-            purchased: {{ product.purchased }} |
-            amountToBuy: {{ product.amount_to_buy }} |
-        </li>
-      </ul>
+      <Item
+      v-for="product in products"
+      :key="product._name"
+      v-bind:name="product.name"
+      v-bind:amount="product.amount"
+      v-bind:purchased="product.purchased"
+      v-bind:amountToBuy="product.amount_to_buy"
+      ></Item>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
+import Item from '../components/Item.vue';
 
 export default {
   name: 'Home',
+  components: {
+    Item,
+  },
   data: () => ({
     products: [],
   }),
@@ -33,6 +33,7 @@ export default {
       },
     }).then((result) => {
       this.products = result.data;
+      console.log(result.data);
     });
   },
   methods: {
