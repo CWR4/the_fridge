@@ -61,7 +61,7 @@ app.post('/api/deleteProduct', (req, res) => {
 })
 
 app.get('/api/getFridgeInventory', (req, res) => {
-    db.getFridgeInventory(req.body.name).then((result) => {
+    db.getFridgeInventory(req.query.name).then((result) => {
         console.log(result);
         res.json(result);
     }).catch((error) => {
