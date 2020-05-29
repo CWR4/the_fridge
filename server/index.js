@@ -76,7 +76,7 @@ app.get('/api/getFridgeInventory', (req, res) => {
 });
 
 app.get('/api/getFridgeShoppingList', (req, res) => {
-    db.getShoppingList(req.body.fridge_id).then((result) => {
+    db.getShoppingList(req.query.name).then((result) => {
         console.log(result);
         res.json(result);
     }).catch((error) => {

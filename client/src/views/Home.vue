@@ -37,9 +37,10 @@ export default {
   }),
   mounted() {
     console.log(this.fridgeName);
-    axios({
-      method: 'get',
-      url: `http://localhost:8000/api/getFridgeInventory?name=${this.fridgeName}`,
+    axios.get('http://localhost:8000/api/getFridgeShoppingList', {
+      params: {
+        name: this.fridgeName,
+      },
     }).then((result) => {
       console.log(result);
     });
