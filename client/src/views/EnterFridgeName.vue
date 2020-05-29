@@ -48,10 +48,12 @@ export default {
     checkOnWhiteSpaceInInput(inputForSpaceTest) {
       if (/\s/g.test(inputForSpaceTest) || inputForSpaceTest.length < 0) {
         this.isWhiteSpaceInInput = true;
+        this.isFridgeExistent = false;
+        this.isErrorThrown = false;
+        this.isFridgeUnableToOpen = false;
+      } else {
+        this.isWhiteSpaceInInput = false;
       }
-      this.isFridgeExistent = false;
-      this.isErrorThrown = false;
-      this.isFridgeUnableToOpen = false;
       return this.isWhiteSpaceInInput;
     },
     /** checks if entered fridge name is already in use */
