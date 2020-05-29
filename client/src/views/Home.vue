@@ -1,6 +1,7 @@
 <template>
     <!-- eslint-disable max-len -->
     <div class="home-container">
+      <h1 id="fridgeName">Welcome to your {{ fridgeName }}</h1>
     </div>
 </template>
 
@@ -8,10 +9,12 @@
 
 export default {
   name: 'Home',
-  // data: () => ({
-  // }),
-  // mounted() {
-  // },
+  data: () => ({
+    fridgeName: '',
+  }),
+  mounted() {
+    this.fridgeName = localStorage.getItem('userFride');
+  },
   // methods: {
   // },
 };
