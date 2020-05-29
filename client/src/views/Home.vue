@@ -3,15 +3,15 @@
     <div class="home-container">
       <h1>Welcome to {{ fridgeName }}</h1>
       <ul>
-        <li v-for="product in products" :key="product._id">
+        <li v-for="product in products" :key="product._name">
             id: {{ product.id }} |
             name: {{ product.name }} |
-            amount: {{product.amount }} |
-            alwaysAvailable: {{product.alwaysAvailable }} |
-            minAmount: {{product.minAmount }} |
-            fridgeId: {{product.fridgeId }} |
-            purchased: {{product.purchased }} |
-            amountToBuy: {{product.amountToBuy }} |
+            amount: {{ product.amount }} |
+            alwaysAvailable: {{ product.always_available }} |
+            minAmount: {{ product.min_amount }} |
+            fridgeId: {{ product.fridge_id }} |
+            purchased: {{ product.purchased }} |
+            amountToBuy: {{ product.amount_to_buy }} |
         </li>
       </ul>
     </div>
@@ -24,16 +24,6 @@ export default {
   name: 'Home',
   data: () => ({
     products: [],
-    product: {
-      id: '',
-      name: '',
-      amount: '',
-      alwaysAvailable: '',
-      minAmount: '',
-      fridgeId: '',
-      purchased: '',
-      amountToBuy: '',
-    },
   }),
   mounted() {
     console.log(this.fridgeName);
@@ -42,7 +32,7 @@ export default {
         name: this.fridgeName,
       },
     }).then((result) => {
-      console.log(result);
+      this.products = result.data;
     });
   },
   methods: {
