@@ -6,8 +6,23 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/enterFridgeName',
-    name: 'EnterFridgeName',
+    path: '/',
+    name: 'home',
+    component: EnterFridgeName,
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: EnterFridgeName,
+  },
+  {
+    path: '/inventory',
+    name: 'inventory',
+    component: EnterFridgeName,
+  },
+  {
+    path: '/shoppinglist',
+    name: 'shopping-list',
     component: EnterFridgeName,
   },
   // {

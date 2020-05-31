@@ -1,8 +1,22 @@
 <template>
   <div id="app">
+    <SecondLevelMenue v-if="$route.name !== 'home'"/>
     <router-view/>
   </div>
 </template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import SecondLevelMenue from './components/SecondLevelMenue.vue';
+
+@Component({
+  components: {
+    SecondLevelMenue,
+  },
+})
+export default class App extends Vue {
+}
+</script>
 
 <style lang="scss">
 
