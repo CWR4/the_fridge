@@ -34,7 +34,10 @@ export default class SecondLevelMenue extends Vue {
 .menue-bar {
   background-color: #158AB4;
   display: flex;
+  position: sticky;
+  top: 0;
   justify-content: space-evenly;
+  z-index: 10;
 }
 
 div {
