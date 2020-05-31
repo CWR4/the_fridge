@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import EnterFridgeName from '../views/EnterFridgeName.vue';
+import About from '../views/About.vue';
 
 Vue.use(VueRouter);
 
@@ -13,17 +14,17 @@ const routes = [
   {
     path: '/inventory',
     name: 'inventory',
-    component: EnterFridgeName,
+    component: About,
   },
   {
     path: '/shoppinglist',
     name: 'shopping-list',
-    component: EnterFridgeName,
+    component: About,
   },
   {
     path: '/about',
     name: 'About',
-    component: () => import('../views/About.vue'),
+    component: About,
   },
 ];
 
