@@ -11,11 +11,6 @@ const routes = [
     component: EnterFridgeName,
   },
   {
-    path: '/test',
-    name: 'test',
-    component: EnterFridgeName,
-  },
-  {
     path: '/inventory',
     name: 'inventory',
     component: EnterFridgeName,
@@ -25,11 +20,11 @@ const routes = [
     name: 'shopping-list',
     component: EnterFridgeName,
   },
-  // {
-  //   path: '/enterFridgeName',
-  //   name: 'EnterFridgeName',
-  //   component: () => import( '../views/EnterFridgeName.vue'),
-  // },
+  {
+    path: '/about',
+    name: 'About',
+    component: () => import('../views/About.vue'),
+  },
 ];
 
 const router = new VueRouter({

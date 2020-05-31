@@ -5,6 +5,21 @@
   </div>
 </template>
 
+<script>
+export default {
+  mounted() {
+    if (localStorage.getItem('userFridge') !== null && this.$router.currentRoute.path === '/') {
+      this.$router.push('/about');
+    }
+    window.onpopstate = () => {
+      if (localStorage.getItem('userFridge') !== null && this.$router.currentRoute.path === '/') {
+        this.$router.push('/about');
+      }
+    };
+  },
+};
+</script>
+
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import SecondLevelMenue from './components/SecondLevelMenue.vue';
