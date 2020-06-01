@@ -5,18 +5,22 @@
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue-property-decorator';
 
-export default class Item extends Vue {
-    $props: {
-        name: string;
-        amount: number;
-        purchased: boolean;
-        amountToBuy: number;
-    }
-}
+export default {
+  name: 'Item',
+  props: {
+    name: String,
+  },
+};
 </script>
 
 <style scoped lang="scss">
 
+.item-container {
+    background-color: rgb(224, 224, 224);
+    max-width: 350px;
+    max-height: 150px;
+    margin-left: auto;
+    margin-right: auto;
+}
 </style>
