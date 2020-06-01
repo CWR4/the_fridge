@@ -1,11 +1,17 @@
 <template>
   <div id="app">
+    <SecondLevelMenue v-if="$route.name !== 'home'"/>
     <router-view/>
   </div>
 </template>
 
 <script>
+import SecondLevelMenue from './components/SecondLevelMenue.vue';
+
 export default {
+  components: {
+    SecondLevelMenue,
+  },
   mounted() {
     if (localStorage.getItem('userFridge') !== null && this.$router.currentRoute.path === '/') {
       this.$router.push('/home');
@@ -17,6 +23,7 @@ export default {
     };
   },
 };
+
 </script>
 
 <style lang="scss">
