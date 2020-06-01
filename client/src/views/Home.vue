@@ -6,9 +6,6 @@
       v-for="product in products"
       :key="product._name"
       v-bind:name="product.name"
-      v-bind:amount="product.amount"
-      v-bind:purchased="product.purchased"
-      v-bind:amountToBuy="product.amount_to_buy"
       ></Item>
     </div>
 </template>
@@ -19,6 +16,9 @@ import Item from '../components/Item.vue';
 
 export default {
   name: 'Home',
+  components: {
+    Item,
+  },
   data: () => ({
     products: [],
   }),
