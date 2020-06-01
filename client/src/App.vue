@@ -6,7 +6,12 @@
 </template>
 
 <script>
+import SecondLevelMenue from './components/SecondLevelMenue.vue';
+
 export default {
+  components: {
+    SecondLevelMenue,
+  },
   mounted() {
     if (localStorage.getItem('userFridge') !== null && this.$router.currentRoute.path === '/') {
       this.$router.push('/about');
@@ -18,19 +23,7 @@ export default {
     };
   },
 };
-</script>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import SecondLevelMenue from './components/SecondLevelMenue.vue';
-
-@Component({
-  components: {
-    SecondLevelMenue,
-  },
-})
-export default class App extends Vue {
-}
 </script>
 
 <style lang="scss">
