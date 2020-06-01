@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import EnterFridgeName from '../views/EnterFridgeName.vue';
+import Login from '../views/Login.vue';
 import Home from '../views/Home.vue';
 
 Vue.use(VueRouter);
@@ -9,7 +9,7 @@ const routes = [
   {
     path: '/',
     name: 'login',
-    component: EnterFridgeName,
+    component: Login,
   },
   {
     path: '/inventory',

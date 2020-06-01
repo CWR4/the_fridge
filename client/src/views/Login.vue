@@ -1,6 +1,6 @@
 <template>
     <!-- eslint-disable max-len -->
-    <div class="enter-name-container">
+    <div class="login-container">
         <div class="fridge-circle">
             <p id="the">the</p>
             <h1>Fridge</h1>
@@ -26,7 +26,7 @@
 import axios from 'axios';
 
 export default {
-  name: 'EnterFridgeName',
+  name: 'login',
   data: () => ({
     isFridgeExistent: false,
     isErrorThrown: false,
