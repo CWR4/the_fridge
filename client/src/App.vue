@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <SecondLevelMenue v-if="$route.name !== 'home'"/>
+    <SecondLevelMenue v-if="$route.name !== 'login'"/>
     <router-view/>
   </div>
 </template>
