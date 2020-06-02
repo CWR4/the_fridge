@@ -2,7 +2,7 @@
   <div class="container item-container">
     <div class="row">
       <div class="col item-name text-left">{{ item.name }}</div>
-      <div class="col-2">{{ item.amount }}x</div>
+      <div class="col-2">x{{ item.amount }}</div>
       <div class="col-2" @click="showOptions = !showOptions">
         <img src="../assets/chevron-down.png" v-if="!showOptions" />
         <img src="../assets/chevron-up.png" v-if="showOptions" />
@@ -12,7 +12,7 @@
       <div class="col-10 text-center">
         <span class="amount-box"
         @click="decreaseAmount()"
-        :class="{ inactive: item.amount <= 1 }">
+        :class="{ inactive: item.amount <= 0 }">
           -
         </span>
         <span class="amount-box">
@@ -33,7 +33,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import {
+  Component, Vue, Prop, Inject,
+} from 'vue-property-decorator';
 import { ItemType } from '../interfaces';
 
 @Component({})
@@ -42,22 +44,47 @@ export default class Item extends Vue {
 
   @Prop() item!: ItemType;
 
+  @Inject() axios: any;
+
+  @Inject() eventBus: any;
+
   showOptions = false;
 
   deleteItem(): void {
-    console.log('Delete Item', this.showOptions);
+    this.axios.post(
+      'http://localhost:8000/api/deleteproduct',
+      {
+        product: this.item,
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        fridge_id: this.item.fridge_id,
+      },
+    );
+    this.eventBus.$emit('update');
   }
 
   increaseAmount(): void {
-    console.log('Todo: send action to backend');
     this.item.amount += 1;
+    this.updateProduct();
   }
 
   decreaseAmount(): void {
-    console.log('Todo: send action to backend');
-    if (this.item.amount > 1) {
+    if (this.item.amount > 0) {
       this.item.amount -= 1;
+      this.updateProduct();
     }
+  }
+
+  updateProduct(): void {
+    this.axios.post(
+      'http://localhost:8000/api/upsertproduct',
+      {
+        product: this.item,
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        fridge_id: this.item.fridge_id,
+      },
+    ).then((result: any) => {
+      this.eventBus.$emit('update');
+    });
   }
 }
 </script>

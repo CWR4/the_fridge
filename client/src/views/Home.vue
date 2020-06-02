@@ -9,21 +9,41 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Inject, Vue, Component } from 'vue-property-decorator';
 import axios from 'axios';
 import Item from '../components/Item.vue';
 
-export default {
-  name: 'Home',
+@Component({
   components: {
     Item,
   },
-  data: () => ({
-    products: [],
-  }),
+})
+export default class Home extends Vue {
+  products = [];
+
+  @Inject() axios: any;
+
+  @Inject() eventBus: any;
+
+  created() {
+    this.getProducts();
+  }
+
   mounted() {
+    this.eventBus.$on('update', () => {
+      this.getProducts();
+    });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  get fridgeName(): string|null {
+    return localStorage.getItem('userFridge');
+  }
+
+  getProducts() {
     console.log(this.fridgeName);
-    axios.get('http://localhost:8000/api/getFridgeShoppingList', {
+    axios.get('http://localhost:8000/api/getFridgeInventory', {
       params: {
         name: this.fridgeName,
       },
@@ -31,15 +51,8 @@ export default {
       this.products = result.data;
       console.log(result.data);
     });
-  },
-  methods: {
-  },
-  computed: {
-    fridgeName() {
-      return localStorage.getItem('userFridge');
-    },
-  },
-};
+  }
+}
 
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
