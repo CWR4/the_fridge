@@ -1,11 +1,16 @@
 <template>
-  <div class="home-container">
-    <h1>Welcome to {{ fridgeName }}</h1>
-    <Item
-    v-for="product in products"
-    :key="product._name"
-    v-bind:item="product"
-    ></Item>
+  <div>
+    <div class="home-container" v-if="products !== '' || products === []">
+      <h1>Welcome to {{ fridgeName }}</h1>
+      <Item
+      v-for="product in products"
+      :key="product._name"
+      v-bind:item="product"
+      ></Item>
+    </div>
+    <div v-else>
+      Nothing here yet. Let's start by clicking on the button below!
+    </div>
   </div>
 </template>
 
