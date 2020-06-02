@@ -11,7 +11,8 @@
     <div class="row has-padding" v-show="showOptions">
       <div class="col-10 text-center">
         <span class="amount-box"
-        @click="decreaseAmount()">
+        @click="decreaseAmount()"
+        :class="{ inactive: item.amount <= 1 }">
           -
         </span>
         <span class="amount-box">
@@ -54,7 +55,9 @@ export default class Item extends Vue {
 
   decreaseAmount(): void {
     console.log('Todo: send action to backend');
-    this.item.amount -= 1;
+    if (this.item.amount > 1) {
+      this.item.amount -= 1;
+    }
   }
 }
 </script>
@@ -70,7 +73,7 @@ export default class Item extends Vue {
   margin-right: auto;
   border-radius: 3px;
 
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .amount-box {
@@ -80,9 +83,16 @@ export default class Item extends Vue {
   margin: 5px;
   border: 1px #404144 solid;
   border-radius: 3px;
+  user-select: none;
 }
 
 .has-padding {
   padding-bottom: 10px;
+}
+
+.inactive {
+  border-color: lightgray;
+  color: lightgray;
+  cursor: not-allowed;
 }
 </style>
