@@ -1,13 +1,12 @@
 <template>
-    <!-- eslint-disable max-len -->
-    <div class="home-container">
-      <h1>Welcome to {{ fridgeName }}</h1>
-      <Item
-      v-for="product in products"
-      :key="product._name"
-      v-bind:name="product.name"
-      ></Item>
-    </div>
+  <div class="home-container">
+    <h1>Welcome to {{ fridgeName }}</h1>
+    <Item
+    v-for="product in products"
+    :key="product._name"
+    v-bind:item="product"
+    ></Item>
+  </div>
 </template>
 
 <script>
