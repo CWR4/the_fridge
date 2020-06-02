@@ -69,9 +69,9 @@ export default class Item extends Vue {
   width: 90%;
   max-width: 350px;
   max-height: 150px;
-  margin-left: auto;
-  margin-right: auto;
   border-radius: 3px;
+  margin: 5px auto;
+  line-height: 2rem;
 
   font-size: 16px;
 }
