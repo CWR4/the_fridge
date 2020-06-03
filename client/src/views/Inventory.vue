@@ -12,16 +12,19 @@
     <div v-else>
       Nothing here yet. Let's start by clicking on the button below!
     </div>
+    <AddItemButton :shopping-list="false" />
   </div>
 </template>
 
 <script lang="ts">
 import { Inject, Vue, Component } from 'vue-property-decorator';
 import Item from '../components/Item.vue';
+import AddItemButton from '../components/AddItemButton.vue';
 
 @Component({
   components: {
     Item,
+    AddItemButton,
   },
 })
 export default class Inventory extends Vue {
