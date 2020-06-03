@@ -42,10 +42,10 @@ function deleteFridge(fridgeName) {
 
 function upsertProduct(payload){
     return new Promise((resolve, reject) => {
-        $findProduct = 'select * from products WHERE `name` = ? AND `fridge_id` = ?';
+        $findProduct = 'select * from products as p, fridges as f WHERE `p.name` = ? AND `f.name` = ? and f.id = p.fridge_id';
         queryParams = [
             payload.product.name,
-            payload.fridge_id,
+            payload.fridgeName,
         ];
         connection.query($findProduct, queryParams, (error, result) => {
             //Catch, because updateProduct and insertProduct are returning 
