@@ -61,13 +61,15 @@ export default class AddItemButton extends Vue {
 
   // TODO: needs checking (amount > 0, name != '') and get FridgeID
   saveItem(): void {
+    const fridgeName = localStorage.getItem('userFridge');
     this.axios.get('http://localhost:8000/api/getAllProducts',
       {
         params: {
-          name: localStorage.getItem('userFridge'),
+          name: fridgeName,
         },
       }).then((result: any) => {
       this.allFridgeProducts = result.data;
+      console.log(result);
       this.allFridgeProducts.forEach((product: ItemType) => {
         if (product.name === this.newItem.name) {
           this.newItem.id = product.id;
@@ -85,6 +87,7 @@ export default class AddItemButton extends Vue {
     this.newItem.purchased = false;
     // eslint-disable-next-line @typescript-eslint/camelcase
     this.newItem.min_amount = 0;
+    this.newItem.amount = 0;
 
     this.axios.post(
       'http://localhost:8000/api/upsertproduct',

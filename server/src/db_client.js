@@ -42,7 +42,7 @@ function deleteFridge(fridgeName) {
 
 function upsertProduct(payload){
     return new Promise((resolve, reject) => {
-        $findProduct = 'select * from products as p, fridges as f WHERE `p.name` = ? AND `f.name` = ? and f.id = p.fridge_id';
+        $findProduct = 'select * from products as p, fridges as f WHERE p.name = ? AND f.name = ? and f.id = p.fridge_id';
         queryParams = [
             payload.product.name,
             payload.fridgeName,
@@ -153,7 +153,7 @@ function deleteProduct(payload){
 
 function getFridgeInventory(fridgeName){
     return new Promise((resolve, reject) => {
-        $getFridgeInventory = 'select p.* from products as p, fridges as f where f.name = ? and f.id = p.fridge_id and p.amount > 0;';
+        $getFridgeInventory = 'select p.* from products as p, fridges as f where f.name = ? and p.amount > 0;';
         queryParams = [
             fridgeName,
         ]
@@ -172,7 +172,7 @@ function getFridgeInventory(fridgeName){
 
 function getShoppingList(fridgeName) {
     return new Promise((resolve, reject) => {
-        $getShoppingList = 'select p.* from products as p, fridges as f where f.name = ? and f.id = p.fridge_id and amount_to_buy > 0;';
+        $getShoppingList = 'select p.* from products as p, fridges as f where f.name = ? and amount_to_buy > 0;';
         queryParams = [
             fridgeName,
         ]
@@ -191,7 +191,7 @@ function getShoppingList(fridgeName) {
 
 function getAllProducts(fridgeName) {
     return new Promise((resolve, reject) => {
-        $getProducts = 'select p.* from products as p, fridges as f where f.name = ? and f.id = p.fridge_id;';
+        $getProducts = 'select p.* from products as p, fridges as f where f.name = ?;';
         queryParams = [
             fridgeName,
         ]
