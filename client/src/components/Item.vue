@@ -9,7 +9,8 @@
       >
         {{ item.name }}
       </div>
-      <div class="col-2">x{{ item.amount }}</div>
+      <div class="col-2" v-if="!hasCheckbox">x{{ item.amount }}</div>
+      <div class="col-2" v-if="hasCheckbox">x{{ item.amount_to_buy }}</div>
       <div class="col-2" @click="showOptions = !showOptions">
         <img src="../assets/chevron-down.png" v-if="!showOptions" />
         <img src="../assets/chevron-up.png" v-if="showOptions" />
