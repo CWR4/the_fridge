@@ -20,11 +20,14 @@
       <div class="col-10 text-center">
         <span class="amount-box"
         @click="decreaseAmount()"
-        :class="{ inactive: item.amount <= 0 }">
+        :class="{ inactive: (item.amount <= 0 && !hasCheckbox) }">
           -
         </span>
-        <span class="amount-box">
+        <span class="amount-box" v-if="!hasCheckbox">
           {{ item.amount }}
+        </span>
+        <span class="amount-box" v-else>
+          {{ item.amount_to_buy }}
         </span>
         <span class="amount-box"
           @click="increaseAmount()"
@@ -73,15 +76,23 @@ export default class Item extends Vue {
   }
 
   increaseAmount(): void {
-    this.item.amount += 1;
+    if (!this.hasCheckbox) {
+      this.item.amount += 1;
+    } else {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      this.item.amount_to_buy += 1;
+    }
     this.updateProduct();
   }
 
   decreaseAmount(): void {
-    if (this.item.amount > 0) {
+    if (!this.hasCheckbox && this.item.amount > 0) {
       this.item.amount -= 1;
-      this.updateProduct();
+    } else if (this.item.amount_to_buy > 0) {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      this.item.amount_to_buy -= 1;
     }
+    this.updateProduct();
   }
 
   updateProduct(): void {
