@@ -45,6 +45,8 @@ export default class AddItemButton extends Vue {
 
   isValid = false;
 
+  allFridgeProducts = [];
+
   newItem = {} as ItemType;
 
   @Prop() shoppingList!: boolean;
@@ -59,17 +61,31 @@ export default class AddItemButton extends Vue {
 
   // TODO: needs checking (amount > 0, name != '') and get FridgeID
   saveItem(): void {
+    this.axios.get('http://localhost:8000/api/getAllProducts',
+      {
+        params: {
+          name: localStorage.getItem('userFridge'),
+        },
+      }).then((result: any) => {
+      this.allFridgeProducts = result.data;
+      this.allFridgeProducts.forEach((product: ItemType) => {
+        if (product.name === this.newItem.name) {
+          this.newItem.id = product.id;
+          if (this.shoppingList) {
+            this.newItem.amount = product.amount;
+          } else {
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            this.newItem.amount_to_buy = product.amount_to_buy;
+          }
+        }
+      });
+    });
     // eslint-disable-next-line @typescript-eslint/camelcase
     this.newItem.always_available = false;
     this.newItem.purchased = false;
     // eslint-disable-next-line @typescript-eslint/camelcase
     this.newItem.min_amount = 0;
-    if (this.shoppingList) {
-      this.newItem.amount = 0;
-    } else {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      this.newItem.amount_to_buy = 0;
-    }
+
     this.axios.post(
       'http://localhost:8000/api/upsertproduct',
       {

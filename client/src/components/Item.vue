@@ -2,7 +2,7 @@
   <div class="container item-container">
     <div class="row">
       <div class="col-1" v-if="hasCheckbox">
-        <input type="checkbox" v-model="isChecked">
+        <input type="checkbox" v-model="isChecked" @click="moveItemToFridge">
       </div>
       <div class="col item-name text-left"
         :class="{ checked: isChecked }"
@@ -92,6 +92,14 @@ export default class Item extends Vue {
       // eslint-disable-next-line @typescript-eslint/camelcase
       this.item.amount_to_buy -= 1;
     }
+    this.updateProduct();
+  }
+
+  moveItemToFridge(): void {
+    this.item.amount += this.item.amount_to_buy;
+    this.item.purchased = true;
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    this.item.amount_to_buy = 0;
     this.updateProduct();
   }
 

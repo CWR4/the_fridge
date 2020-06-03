@@ -1,7 +1,7 @@
 <template>
   <div>
+    <h4>{{ fridgeName }}</h4>
     <div class="home-container" v-if="products !== '' || products === []">
-      <h1>Welcome to {{ fridgeName }}</h1>
       <Item
       v-for="product in products"
       :key="product._name"
