@@ -170,11 +170,11 @@ function getFridgeInventory(fridgeName){
     });
 }
 
-function getShoppingList(fridgeId) {
+function getShoppingList(fridgeName) {
     return new Promise((resolve, reject) => {
-        $getShoppingList = 'select * from products where fridge_id = ? and amount_to_buy > 0;';
+        $getShoppingList = 'select p.* from products as p, fridges as f where f.name = ? and f.id = p.fridge_id and amount_to_buy > 0;';
         queryParams = [
-            fridgeId,
+            fridgeName,
         ]
         connection.query($getShoppingList, queryParams, (error, result) => {
             if (!error && result.length != 0) {

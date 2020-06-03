@@ -61,31 +61,39 @@ app.post('/api/deleteProduct', (req, res) => {
 })
 
 app.get('/api/getFridgeInventory', (req, res) => {
-    db.getFridgeInventory(req.body.name).then((result) => {
+    db.getFridgeInventory(req.query.name).then((result) => {
         console.log(result);
         res.json(result);
     }).catch((error) => {
-        res.status(500).json({
-            code: error.code,
-            error: error.errno,
-            sqlMessage: error.sqlMessage,
-            message: error.message,
-        });
+        if (error.message === 'Unsuccessful') {
+            res.sendStatus(204);
+        } else {
+            res.status(204).json({
+                code: error.code,
+                error: error.errno,
+                sqlMessage: error.sqlMessage,
+                message: error.message,
+            });
+        }
         console.error(error);
     });
 });
 
 app.get('/api/getFridgeShoppingList', (req, res) => {
-    db.getShoppingList(req.body.fridge_id).then((result) => {
+    db.getShoppingList(req.query.name).then((result) => {
         console.log(result);
         res.json(result);
     }).catch((error) => {
-        res.status(500).json({
-            code: error.code,
-            error: error.errno,
-            sqlMessage: error.sqlMessage,
-            message: error.message,
-        });
+        if (error.message === 'Unsuccessful') {
+            res.sendStatus(204);
+        } else {
+            res.status(204).json({
+                code: error.code,
+                error: error.errno,
+                sqlMessage: error.sqlMessage,
+                message: error.message,
+            });
+        }
         console.error(error);
     });
 });

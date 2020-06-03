@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <SecondLevelMenue v-if="$route.name !== 'home'"/>
+    <SecondLevelMenue v-if="$route.name !== 'login'"/>
     <router-view/>
   </div>
 </template>
@@ -14,11 +14,11 @@ export default {
   },
   mounted() {
     if (localStorage.getItem('userFridge') !== null && this.$router.currentRoute.path === '/') {
-      this.$router.push('/about');
+      this.$router.push('/inventory');
     }
     window.onpopstate = () => {
       if (localStorage.getItem('userFridge') !== null && this.$router.currentRoute.path === '/') {
-        this.$router.push('/about');
+        this.$router.push('/inventory');
       }
     };
   },

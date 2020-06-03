@@ -1,30 +1,26 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import EnterFridgeName from '../views/EnterFridgeName.vue';
-import About from '../views/About.vue';
+import Inventory from '@/views/Inventory.vue';
+import ShoppingList from '@/views/ShoppingList.vue';
+import Login from '../views/Login.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: EnterFridgeName,
+    name: 'login',
+    component: Login,
   },
   {
     path: '/inventory',
     name: 'inventory',
-    component: About,
+    component: Inventory,
   },
   {
     path: '/shoppinglist',
     name: 'shopping-list',
-    component: About,
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: About,
+    component: ShoppingList,
   },
 ];
 
