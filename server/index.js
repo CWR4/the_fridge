@@ -35,6 +35,7 @@ app.post('/api/deleteFridge', (req, res) => {
 });
 
 app.post('/api/upsertProduct', (req, res) => {
+    console.log('Logging', req.body);
     db.upsertProduct(req.body).then((result) => {
         console.log(result);
         res.sendStatus(200);

@@ -108,8 +108,7 @@ export default class Item extends Vue {
       'http://localhost:8000/api/upsertproduct',
       {
         product: this.item,
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        fridge_id: this.item.fridge_id,
+        fridgeName: localStorage.getItem('userFridge'),
       },
     ).then((result: any) => {
       this.eventBus.$emit('update');
