@@ -16,28 +16,30 @@
         <img src="../assets/chevron-up.png" v-if="showOptions" />
       </div>
     </div>
-    <div class="row has-padding" v-show="showOptions">
-      <div class="col-10 text-center">
-        <span class="amount-box"
-        @click="decreaseAmount()"
-        :class="{ inactive: (item.amount <= 0 && !hasCheckbox) }">
-          -
-        </span>
-        <span class="amount-box" v-if="!hasCheckbox">
-          {{ item.amount }}
-        </span>
-        <span class="amount-box" v-else>
-          {{ item.amount_to_buy }}
-        </span>
-        <span class="amount-box"
-          @click="increaseAmount()"
-        >
-          +
-        </span>
-      </div>
-      <div class="col-2">
-        <img src="../assets/trash.png"
-        @click="deleteItem()"/>
+    <div class="has-padding" v-show="showOptions">
+      <div class="row">
+        <div class="col-10 text-center">
+          <span class="amount-box"
+          @click="decreaseAmount()"
+          :class="{ inactive: (item.amount <= 0 && !hasCheckbox) }">
+            -
+          </span>
+          <span class="amount-box" v-if="!hasCheckbox">
+            {{ item.amount }}
+          </span>
+          <span class="amount-box" v-else>
+            {{ item.amount_to_buy }}
+          </span>
+          <span class="amount-box"
+            @click="increaseAmount()"
+          >
+            +
+          </span>
+        </div>
+        <div class="col-2">
+          <img src="../assets/trash.png"
+          @click="deleteItem()"/>
+        </div>
       </div>
     </div>
   </div>
@@ -64,14 +66,12 @@ export default class Item extends Vue {
   isChecked = false;
 
   deleteItem(): void {
-    this.axios.post(
-      'http://localhost:8000/api/deleteproduct',
-      {
-        product: this.item,
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        fridge_id: this.item.fridge_id,
-      },
-    );
+    if (!this.hasCheckbox) {
+      this.item.amount = 0;
+    } else {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      this.item.amount_to_buy = 0;
+    }
     this.eventBus.$emit('update');
   }
 
