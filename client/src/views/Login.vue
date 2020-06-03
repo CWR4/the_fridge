@@ -1,6 +1,6 @@
 <template>
     <!-- eslint-disable max-len -->
-    <div class="enter-name-container">
+    <div class="login-container">
         <div class="fridge-circle">
             <p id="the">the</p>
             <h1>Fridge</h1>
@@ -26,7 +26,7 @@
 import axios from 'axios';
 
 export default {
-  name: 'EnterFridgeName',
+  name: 'login',
   data: () => ({
     isFridgeExistent: false,
     isErrorThrown: false,
@@ -77,7 +77,7 @@ export default {
         }).then((result) => {
           if (result.status === 200) {
             localStorage.setItem(this.fridgeStorageKey, this.fridgeName);
-            this.$router.push({ path: '/about' });
+            this.$router.push({ path: '/inventory' });
           }
         }).catch((error) => {
           this.isErrorThrown = true;
@@ -95,7 +95,7 @@ export default {
       } else if (!this.checkOnWhiteSpaceInInput(this.fridgeName)
       && this.checkIfFridgeIsExistent(this.fridgeName)) {
         localStorage.setItem(this.fridgeStorageKey, this.fridgeName);
-        this.$router.push({ path: '/about' });
+        this.$router.push({ path: '/inventory' });
       }
     },
   },

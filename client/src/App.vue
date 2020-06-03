@@ -1,22 +1,29 @@
 <template>
   <div id="app">
+    <SecondLevelMenue v-if="$route.name !== 'login'"/>
     <router-view/>
   </div>
 </template>
 
 <script>
+import SecondLevelMenue from './components/SecondLevelMenue.vue';
+
 export default {
+  components: {
+    SecondLevelMenue,
+  },
   mounted() {
     if (localStorage.getItem('userFridge') !== null && this.$router.currentRoute.path === '/') {
-      this.$router.push('/about');
+      this.$router.push('/inventory');
     }
     window.onpopstate = () => {
       if (localStorage.getItem('userFridge') !== null && this.$router.currentRoute.path === '/') {
-        this.$router.push('/about');
+        this.$router.push('/inventory');
       }
     };
   },
 };
+
 </script>
 
 <style lang="scss">
