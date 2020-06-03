@@ -1,10 +1,14 @@
 <template>
   <div class="container item-container">
     <div class="row">
-      <div class="col-2" v-if="hasCheckbox">
-        <input type="checkbox">
+      <div class="col-1" v-if="hasCheckbox">
+        <input type="checkbox" v-model="isChecked">
       </div>
-      <div class="col item-name text-left">{{ item.name }}</div>
+      <div class="col item-name text-left"
+        :class="{ checked: isChecked }"
+      >
+        {{ item.name }}
+      </div>
       <div class="col-2">x{{ item.amount }}</div>
       <div class="col-2" @click="showOptions = !showOptions">
         <img src="../assets/chevron-down.png" v-if="!showOptions" />
@@ -52,6 +56,8 @@ export default class Item extends Vue {
   @Inject() eventBus: any;
 
   showOptions = false;
+
+  isChecked = false;
 
   deleteItem(): void {
     this.axios.post(
@@ -124,5 +130,9 @@ export default class Item extends Vue {
   border-color: lightgray;
   color: lightgray;
   cursor: not-allowed;
+}
+
+.checked {
+  text-decoration: line-through;
 }
 </style>

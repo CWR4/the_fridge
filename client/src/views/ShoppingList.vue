@@ -6,7 +6,7 @@
       v-for="product in products"
       :key="product._name"
       v-bind:item="product"
-      v-bind:has-checkbox="false"
+      v-bind:has-checkbox="true"
       ></Item>
     </div>
     <div v-else>
@@ -17,14 +17,14 @@
 
 <script lang="ts">
 import { Inject, Vue, Component } from 'vue-property-decorator';
-import Item from '../components/Item.vue';
+import Item from '@/components/Item.vue';
 
 @Component({
   components: {
     Item,
   },
 })
-export default class Home extends Vue {
+export default class ShoppingList extends Vue {
   products = [];
 
   @Inject() axios: any;
