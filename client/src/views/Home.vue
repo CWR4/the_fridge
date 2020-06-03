@@ -6,6 +6,7 @@
       v-for="product in products"
       :key="product._name"
       v-bind:item="product"
+      v-bind:has-checkbox="false"
       ></Item>
     </div>
     <div v-else>
@@ -16,7 +17,6 @@
 
 <script lang="ts">
 import { Inject, Vue, Component } from 'vue-property-decorator';
-import axios from 'axios';
 import Item from '../components/Item.vue';
 
 @Component({
@@ -48,11 +48,11 @@ export default class Home extends Vue {
 
   getProducts() {
     console.log(this.fridgeName);
-    axios.get('http://localhost:8000/api/getFridgeInventory', {
+    this.axios.get('http://localhost:8000/api/getFridgeInventory', {
       params: {
         name: this.fridgeName,
       },
-    }).then((result) => {
+    }).then((result: any) => {
       this.products = result.data;
       console.log(result.data);
     });

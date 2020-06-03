@@ -1,6 +1,9 @@
 <template>
   <div class="container item-container">
     <div class="row">
+      <div class="col-2" v-if="hasCheckbox">
+        <input type="checkbox">
+      </div>
       <div class="col item-name text-left">{{ item.name }}</div>
       <div class="col-2">x{{ item.amount }}</div>
       <div class="col-2" @click="showOptions = !showOptions">
@@ -40,7 +43,7 @@ import { ItemType } from '../interfaces';
 
 @Component({})
 export default class Item extends Vue {
-  @Prop() name!: string;
+  @Prop() hasCheckbox!: boolean;
 
   @Prop() item!: ItemType;
 
@@ -92,7 +95,7 @@ export default class Item extends Vue {
 <style scoped lang="scss">
 
 .item-container {
-  background-color: rgb(224, 224, 224);
+  background-color: #FFFFFF;
   width: 90%;
   max-width: 350px;
   max-height: 150px;
