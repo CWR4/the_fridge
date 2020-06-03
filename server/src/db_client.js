@@ -189,6 +189,25 @@ function getShoppingList(fridgeName) {
     });
 }
 
+function getAllProducts(fridgeName) {
+    return new Promise((resolve, reject) => {
+        $getFridgeInventory = 'select p.* from products as p, fridges as f where f.name = ? and f.id = p.fridge_id;';
+        queryParams = [
+            fridgeName,
+        ]
+        connection.query($getFridgeInventory, queryParams, (error, result) => {
+            if (!error && result.length != 0) {
+                resolve(result);
+            } else if (!error && result.length === 0) {
+                result.message = "Unsuccessful";
+                reject(result);
+            } else if (error) {
+                reject(error);
+            }
+        });
+    });
+}
+
 module.exports = {
     createNewFridge,
     deleteFridge,
@@ -199,4 +218,5 @@ module.exports = {
     getFridgeInventory,
     getShoppingList,
     getFridges,
+    getAllProducts,
 };

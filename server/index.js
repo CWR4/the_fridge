@@ -113,6 +113,25 @@ app.get('/api/getFridges', (req, res) => {
     });
 });
 
+app.get('/api/getAllProducts', (req, res) => {
+    db.getAllProducts(req.query.name).then((result) => {
+        console.log(result);
+        res.json(result);
+    }).catch((error) => {
+        if (error.message === 'Unsuccessful') {
+            res.sendStatus(204);
+        } else {
+            res.status(204).json({
+                code: error.code,
+                error: error.errno,
+                sqlMessage: error.sqlMessage,
+                message: error.message,
+            });
+        }
+        console.error(error);
+    });
+});
+
 app.listen(8000, () => {
     console.log('Listening to port 8000');
 });
