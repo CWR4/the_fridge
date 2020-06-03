@@ -14,11 +14,11 @@ export default {
   },
   mounted() {
     if (localStorage.getItem('userFridge') !== null && this.$router.currentRoute.path === '/') {
-      this.$router.push('/home');
+      this.$router.push('/inventory');
     }
     window.onpopstate = () => {
       if (localStorage.getItem('userFridge') !== null && this.$router.currentRoute.path === '/') {
-        this.$router.push('/home');
+        this.$router.push('/inventory');
       }
     };
   },
