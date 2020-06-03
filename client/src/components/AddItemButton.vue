@@ -43,6 +43,8 @@ import { ItemType } from '../interfaces';
 export default class AddItemButton extends Vue {
   addingItem = false;
 
+  isValid = false;
+
   newItem = {} as ItemType;
 
   @Prop() shoppingList!: boolean;
@@ -55,6 +57,7 @@ export default class AddItemButton extends Vue {
     this.addingItem = true;
   }
 
+  // TODO: needs checking (amount > 0, name != '') and get FridgeID
   saveItem(): void {
     // eslint-disable-next-line @typescript-eslint/camelcase
     this.newItem.always_available = false;
@@ -147,4 +150,9 @@ input:focus {
   cursor: pointer;
 }
 
+.inactive {
+  border-color: lightgray;
+  color: lightgray;
+  cursor: not-allowed;
+}
 </style>

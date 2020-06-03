@@ -72,7 +72,7 @@ export default class Item extends Vue {
       // eslint-disable-next-line @typescript-eslint/camelcase
       this.item.amount_to_buy = 0;
     }
-    this.eventBus.$emit('update');
+    this.updateProduct();
   }
 
   increaseAmount(): void {
