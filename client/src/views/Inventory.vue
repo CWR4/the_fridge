@@ -50,14 +50,12 @@ export default class Inventory extends Vue {
   }
 
   getProducts() {
-    console.log('GetProducts start', this.fridgeName);
     this.axios.get('http://localhost:8000/api/getFridgeInventory', {
       params: {
         name: this.fridgeName,
       },
     }).then((result: any) => {
       this.products = result.data;
-      console.log(result.data);
     });
   }
 }

@@ -50,14 +50,12 @@ export default class ShoppingList extends Vue {
   }
 
   getProducts() {
-    console.log(this.fridgeName);
     this.axios.get('http://localhost:8000/api/getfridgeshoppinglist', {
       params: {
         name: this.fridgeName,
       },
     }).then((result: any) => {
       this.products = result.data;
-      console.log(result.data);
     });
   }
 }

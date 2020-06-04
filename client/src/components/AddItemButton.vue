@@ -80,7 +80,6 @@ export default class AddItemButton extends Vue {
           { name: '' },
         ];
       }
-      console.log(this.allFridgeProducts);
     });
   }
 
@@ -88,7 +87,6 @@ export default class AddItemButton extends Vue {
     if (this.allFridgeProducts.find(
       (item: ItemType) => item.name === this.newItem.name,
     ) !== undefined) {
-      console.log('Im there');
       const product = this.allFridgeProducts.find(
         (productInList: ItemType) => productInList.name === this.newItem.name,
       );
