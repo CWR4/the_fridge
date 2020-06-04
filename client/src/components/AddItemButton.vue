@@ -40,12 +40,13 @@ import {
 import { ItemType } from '../interfaces';
 
 @Component({})
+/* eslint-disable */
 export default class AddItemButton extends Vue {
   addingItem = false;
 
   isValid = false;
 
-  allFridgeProducts = [];
+  allFridgeProducts: any[] = [];
 
   newItem = {} as ItemType;
 
@@ -61,7 +62,7 @@ export default class AddItemButton extends Vue {
   }
 
   mounted() {
-    this.getFridgeId(this.fridgeName);
+    this.getFridgeId(this.fridgeName!);
   }
 
   addItem(): void {
@@ -79,7 +80,6 @@ export default class AddItemButton extends Vue {
           { name: '' },
         ];
       }
-      console.log(this.allFridgeProducts);
     });
   }
 
@@ -87,7 +87,6 @@ export default class AddItemButton extends Vue {
     if (this.allFridgeProducts.find(
       (item: ItemType) => item.name === this.newItem.name,
     ) !== undefined) {
-      console.log('Im there');
       const product = this.allFridgeProducts.find(
         (productInList: ItemType) => productInList.name === this.newItem.name,
       );
@@ -113,9 +112,11 @@ export default class AddItemButton extends Vue {
         this.eventBus.$emit('update');
         this.newItem = {} as ItemType;
         this.addingItem = false;
+      }).catch((error: Error) => {
+        console.log(error);
       });
     } else {
-      const parsedId = parseInt(localStorage.getItem('fridgeId'), 10);
+      const parsedId = parseInt(localStorage.getItem('fridgeId')!, 10);
       // eslint-disable-next-line @typescript-eslint/camelcase
       this.newItem.fridge_id = parsedId;
       // eslint-disable-next-line @typescript-eslint/camelcase
@@ -139,11 +140,13 @@ export default class AddItemButton extends Vue {
         this.eventBus.$emit('update');
         this.newItem = {} as ItemType;
         this.addingItem = false;
+      }).catch((error: Error) => {
+        console.log(error);
       });
     }
   }
 
-  getFridgeId(fridgeName) {
+  getFridgeId(fridgeName: string) {
     this.axios.get('http://localhost:8000/api/getFridgeDataByName',
       {
         params: {
@@ -151,6 +154,8 @@ export default class AddItemButton extends Vue {
         },
       }).then((result: any) => {
       localStorage.setItem('fridgeId', result.data[0].id);
+    }).catch((error: Error) => {
+      console.log(error);
     });
   }
 

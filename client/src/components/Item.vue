@@ -112,6 +112,8 @@ export default class Item extends Vue {
       },
     ).then((result: any) => {
       this.eventBus.$emit('update');
+    }).catch((error: Error) => {
+      console.log(error);
     });
   }
 }
