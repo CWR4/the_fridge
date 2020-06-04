@@ -56,6 +56,8 @@ export default class ShoppingList extends Vue {
       },
     }).then((result: any) => {
       this.products = result.data;
+    }).catch((error: Error) => {
+      console.log(error);
     });
   }
 }

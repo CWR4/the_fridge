@@ -112,6 +112,8 @@ export default class AddItemButton extends Vue {
         this.eventBus.$emit('update');
         this.newItem = {} as ItemType;
         this.addingItem = false;
+      }).catch((error: Error) => {
+        console.log(error);
       });
     } else {
       const parsedId = parseInt(localStorage.getItem('fridgeId')!, 10);
@@ -138,6 +140,8 @@ export default class AddItemButton extends Vue {
         this.eventBus.$emit('update');
         this.newItem = {} as ItemType;
         this.addingItem = false;
+      }).catch((error: Error) => {
+        console.log(error);
       });
     }
   }
@@ -150,6 +154,8 @@ export default class AddItemButton extends Vue {
         },
       }).then((result: any) => {
       localStorage.setItem('fridgeId', result.data[0].id);
+    }).catch((error: Error) => {
+      console.log(error);
     });
   }
 
