@@ -42,15 +42,16 @@ function deleteFridge(fridgeName) {
 
 function upsertProduct(payload){
     return new Promise((resolve, reject) => {
-        $findProduct = 'select * from products as p, fridges as f WHERE p.name = ? AND f.name = ? and f.id = p.fridge_id';
+        $findProduct = 'select * from products where name = ? AND fridge_id = ?;';
         queryParams = [
             payload.product.name,
-            payload.fridgeName,
+            payload.product.fridge_id,
         ];
         connection.query($findProduct, queryParams, (error, result) => {
             //Catch, because updateProduct and insertProduct are returning 
             // Promises => otherwise no error-handling
-            if (!error && result.length == 0) {
+            console.log(result.length);
+            if (!error && result.length === 0) {
                 insertProduct(payload).then((insertResult) => {
                     resolve(insertResult);
                 }).catch((error) => {
@@ -77,7 +78,7 @@ function insertProduct(payload) {
             payload.product.amount,
             payload.product.always_available,
             payload.product.min_amount,
-            payload.fridge_id,
+            payload.product.fridge_id,
             payload.product.purchased,
             payload.product.amount_to_buy,
         ];
@@ -102,7 +103,7 @@ function updateProduct(payload) {
             payload.product.purchased,
             payload.product.amount_to_buy,
             payload.product.name,
-            payload.fridge_id
+            payload.product.fridge_id,
         ];
         connection.query($updateProduct, queryParams, (error, result) => {
             if (!error) {
@@ -133,7 +134,7 @@ function deleteProduct(payload){
         $deleteProduct = 'delete from products where name = ? AND fridge_id = ?';
         queryParams = [
             payload.product.name,
-            payload.fridge_id,
+            payload.product.fridge_id,
         ];
         // deleting doesn't throw an error if there is no record to delete
         // but affectedRows is 0 in this case, hence the following error-handling

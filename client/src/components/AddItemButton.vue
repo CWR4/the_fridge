@@ -55,13 +55,18 @@ export default class AddItemButton extends Vue {
 
   @Inject() eventBus: any;
 
-  addItem(): void {
-    this.addingItem = true;
+  // eslint-disable-next-line class-methods-use-this
+  get fridgeName(): string|null {
+    return localStorage.getItem('userFridge');
   }
 
-  // TODO: needs checking (amount > 0, name != '') and get FridgeID
-  saveItem(): void {
+  mounted() {
+    this.getFridgeId(this.fridgeName);
+  }
+
+  addItem(): void {
     const fridgeName = localStorage.getItem('userFridge');
+    this.addingItem = true;
     this.axios.get('http://localhost:8000/api/getAllProducts',
       {
         params: {
@@ -69,37 +74,95 @@ export default class AddItemButton extends Vue {
         },
       }).then((result: any) => {
       this.allFridgeProducts = result.data;
-      console.log(result);
-      this.allFridgeProducts.forEach((product: ItemType) => {
-        if (product.name === this.newItem.name) {
-          this.newItem.id = product.id;
-          if (this.shoppingList) {
-            this.newItem.amount = product.amount;
-          } else {
-            // eslint-disable-next-line @typescript-eslint/camelcase
-            this.newItem.amount_to_buy = product.amount_to_buy;
-          }
-        }
-      });
+      console.log(this.allFridgeProducts);
     });
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    this.newItem.always_available = false;
-    this.newItem.purchased = false;
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    this.newItem.min_amount = 0;
-    this.newItem.amount = 0;
+  }
 
-    this.axios.post(
-      'http://localhost:8000/api/upsertproduct',
-      {
-        product: this.newItem,
+  // TODO: needs checking (amount > 0, name != '') and get FridgeID
+  saveItem(): void {
+    if (this.allFridgeProducts.find((item) => item.name === this.newItem.name)) {
+      const product = this.allFridgeProducts.find(
+        (productInList) => productInList.name === this.newItem.name,
+      );
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      this.newItem.fridge_id = product.fridge_id;
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      this.newItem.always_available = product.always_available;
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      this.newItem.min_amount = product.min_amount;
+      this.newItem.purchased = product.purchased;
+      if (this.shoppingList) {
+        this.newItem.amount = product.amount;
+        this.axios.post(
+          'http://localhost:8000/api/upsertproduct',
+          {
+            product: this.newItem,
+          },
+        ).then(() => {
+          this.eventBus.$emit('update');
+          this.newItem = {} as ItemType;
+          this.addingItem = false;
+        });
+      } else if (!this.shoppingList) {
         // eslint-disable-next-line @typescript-eslint/camelcase
-        fridge_id: 3,
-      },
-    ).then((result: any) => {
-      this.eventBus.$emit('update');
-      this.newItem = {} as ItemType;
-      this.addingItem = false;
+        this.newItem.amount_to_buy = product.amount_to_buy;
+        this.axios.post(
+          'http://localhost:8000/api/upsertproduct',
+          {
+            product: this.newItem,
+          },
+        ).then(() => {
+          this.eventBus.$emit('update');
+          this.newItem = {} as ItemType;
+          this.addingItem = false;
+        });
+      }
+    } else {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      this.newItem.fridge_id = parseInt(localStorage.getItem('fridgeId'), 10);
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      this.newItem.always_available = false;
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      this.newItem.min_amount = 0;
+      if (this.shoppingList) {
+        this.newItem.purchased = false;
+        this.newItem.amount = 0;
+        this.axios.post(
+          'http://localhost:8000/api/upsertproduct',
+          {
+            product: this.newItem,
+          },
+        ).then(() => {
+          this.eventBus.$emit('update');
+          this.newItem = {} as ItemType;
+          this.addingItem = false;
+        });
+      } else {
+        this.newItem.purchased = true;
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        this.newItem.amount_to_buy = 0;
+        this.axios.post(
+          'http://localhost:8000/api/upsertproduct',
+          {
+            product: this.newItem,
+          },
+        ).then(() => {
+          this.eventBus.$emit('update');
+          this.newItem = {} as ItemType;
+          this.addingItem = false;
+        });
+      }
+    }
+  }
+
+  getFridgeId(fridgeName) {
+    this.axios.get('http://localhost:8000/api/getFridgeDataByName',
+      {
+        params: {
+          name: fridgeName,
+        },
+      }).then((result: any) => {
+      localStorage.setItem('fridgeId', result.data[0].id);
     });
   }
 
