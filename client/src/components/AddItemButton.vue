@@ -40,12 +40,13 @@ import {
 import { ItemType } from '../interfaces';
 
 @Component({})
+/* eslint-disable */
 export default class AddItemButton extends Vue {
   addingItem = false;
 
   isValid = false;
 
-  allFridgeProducts = [];
+  allFridgeProducts: any[] = [];
 
   newItem = {} as ItemType;
 
@@ -61,7 +62,7 @@ export default class AddItemButton extends Vue {
   }
 
   mounted() {
-    this.getFridgeId(this.fridgeName);
+    this.getFridgeId(this.fridgeName!);
   }
 
   addItem(): void {
@@ -115,7 +116,7 @@ export default class AddItemButton extends Vue {
         this.addingItem = false;
       });
     } else {
-      const parsedId = parseInt(localStorage.getItem('fridgeId'), 10);
+      const parsedId = parseInt(localStorage.getItem('fridgeId')!, 10);
       // eslint-disable-next-line @typescript-eslint/camelcase
       this.newItem.fridge_id = parsedId;
       // eslint-disable-next-line @typescript-eslint/camelcase
@@ -143,7 +144,7 @@ export default class AddItemButton extends Vue {
     }
   }
 
-  getFridgeId(fridgeName) {
+  getFridgeId(fridgeName: string) {
     this.axios.get('http://localhost:8000/api/getFridgeDataByName',
       {
         params: {
