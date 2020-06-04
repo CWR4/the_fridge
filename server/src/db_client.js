@@ -42,15 +42,16 @@ function deleteFridge(fridgeName) {
 
 function upsertProduct(payload){
     return new Promise((resolve, reject) => {
-        $findProduct = 'select * from products WHERE `name` = ? AND `fridge_id` = ?';
+        $findProduct = 'select * from products where name = ? AND fridge_id = ?;';
         queryParams = [
             payload.product.name,
-            payload.fridge_id,
+            payload.product.fridge_id,
         ];
         connection.query($findProduct, queryParams, (error, result) => {
             //Catch, because updateProduct and insertProduct are returning 
             // Promises => otherwise no error-handling
-            if (!error && result.length == 0) {
+            console.log('Upsert: ', result);
+            if (!error && result.length === 0) {
                 insertProduct(payload).then((insertResult) => {
                     resolve(insertResult);
                 }).catch((error) => {
@@ -77,13 +78,14 @@ function insertProduct(payload) {
             payload.product.amount,
             payload.product.always_available,
             payload.product.min_amount,
-            payload.fridge_id,
+            payload.product.fridge_id,
             payload.product.purchased,
             payload.product.amount_to_buy,
         ];
         connection.query($insertProduct, queryParams, (error, result) => {
             if (!error) {
                 result.message = "Product added";
+                console.log('InsertProduct result: ', result);
                 resolve(result);
             } else if (error) {
                 reject(error);
@@ -102,11 +104,12 @@ function updateProduct(payload) {
             payload.product.purchased,
             payload.product.amount_to_buy,
             payload.product.name,
-            payload.fridge_id
+            payload.product.fridge_id,
         ];
         connection.query($updateProduct, queryParams, (error, result) => {
             if (!error) {
                 result.message = "Product updated";
+                console.log('Update result: ', result);
                 resolve(result);
             } else if (error) {
                 reject(error);
@@ -133,7 +136,7 @@ function deleteProduct(payload){
         $deleteProduct = 'delete from products where name = ? AND fridge_id = ?';
         queryParams = [
             payload.product.name,
-            payload.fridge_id,
+            payload.product.fridge_id,
         ];
         // deleting doesn't throw an error if there is no record to delete
         // but affectedRows is 0 in this case, hence the following error-handling
@@ -142,7 +145,7 @@ function deleteProduct(payload){
                 result.message = "Product deleted: " + payload.product.name;
                 resolve(result);
             } else if (!error && result.affectedRows === 0) {
-                result.message = "Unsuccessful";
+                result.message = "deleteProduct was unsuccessful";
                 reject(result);
             } else if (error) {
                 reject(error);
@@ -161,7 +164,7 @@ function getFridgeInventory(fridgeName){
             if (!error && result.length != 0) {
                 resolve(result);
             } else if (!error && result.length === 0) {
-                result.message = "Unsuccessful";
+                result.message = "getFridgeInventory was unsuccessful";
                 reject(result);
             } else if (error) {
                 reject(error);
@@ -180,7 +183,45 @@ function getShoppingList(fridgeName) {
             if (!error && result.length != 0) {
                 resolve(result);
             } else if (!error && result.length === 0) {
-                result.message = "Unsuccessful";
+                result.message = "getShoppingList was unsuccessful";
+                reject(result);
+            } else if (error) {
+                reject(error);
+            }
+        });
+    });
+}
+
+function getAllProducts(fridgeName) {
+    return new Promise((resolve, reject) => {
+        $getProducts = 'select p.* from products as p, fridges as f where f.name = ? and f.id = p.fridge_id;';
+        queryParams = [
+            fridgeName,
+        ]
+        connection.query($getProducts, queryParams, (error, result) => {
+            if (!error && result.length != 0) {
+                resolve(result);
+            } else if (!error && result.length === 0) {
+                result.message = "getAllProducts was unsuccessful";
+                reject(result);
+            } else if (error) {
+                reject(error);
+            }
+        });
+    });
+}
+
+function getFridgeDataByName(fridgeName) {
+    return new Promise((resolve, reject) => {
+        $getFridgeData = 'select * from fridges where name = ?;';
+        queryParams = [
+            fridgeName,
+        ]
+        connection.query($getFridgeData, queryParams, (error, result) => {
+            if (!error && result.length != 0) {
+                resolve(result);
+            } else if (!error && result.length === 0) {
+                result.message = "getFridgeDataByName was unsuccessful";
                 reject(result);
             } else if (error) {
                 reject(error);
@@ -199,4 +240,6 @@ module.exports = {
     getFridgeInventory,
     getShoppingList,
     getFridges,
+    getAllProducts,
+    getFridgeDataByName,
 };

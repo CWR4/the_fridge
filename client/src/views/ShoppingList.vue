@@ -1,7 +1,7 @@
 <template>
   <div>
+    <h4 class="fridge-name">{{ fridgeName }}</h4>
     <div class="home-container" v-if="products !== '' || products === []">
-      <h1>Welcome to {{ fridgeName }}</h1>
       <Item
       v-for="product in products"
       :key="product._name"
@@ -12,16 +12,19 @@
     <div v-else>
       Nothing here yet. Let's start by clicking on the button below!
     </div>
+    <AddItemButton :shopping-list="true"/>
   </div>
 </template>
 
 <script lang="ts">
 import { Inject, Vue, Component } from 'vue-property-decorator';
 import Item from '@/components/Item.vue';
+import AddItemButton from '@/components/AddItemButton.vue';
 
 @Component({
   components: {
     Item,
+    AddItemButton,
   },
 })
 export default class ShoppingList extends Vue {
@@ -62,5 +65,7 @@ export default class ShoppingList extends Vue {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
+.fridge-name {
+  margin-top: 20px;
+}
 </style>
