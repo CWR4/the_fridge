@@ -194,7 +194,7 @@ function getShoppingList(fridgeName) {
 
 function getAllProducts(fridgeName) {
     return new Promise((resolve, reject) => {
-        $getProducts = 'select p.* from products as p, fridges as f where f.name = ?;';
+        $getProducts = 'select p.* from products as p, fridges as f where f.name = ? and f.id = p.fridge_id;';
         queryParams = [
             fridgeName,
         ]

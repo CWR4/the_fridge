@@ -74,17 +74,20 @@ export default class AddItemButton extends Vue {
         },
       }).then((result: any) => {
       this.allFridgeProducts = result.data;
+      if (this.allFridgeProducts.length <= 0) {
+        this.allFridgeProducts = [
+          { name: '' },
+        ];
+      }
       console.log(this.allFridgeProducts);
     });
   }
 
-  // TODO: needs checking (amount > 0, name != '') and get FridgeID
   saveItem(): void {
-    console.log('This is save Item');
-    console.log(this.allFridgeProducts.find(
+    if (this.allFridgeProducts.find(
       (item: ItemType) => item.name === this.newItem.name,
-    ) !== undefined);
-    if (this.allFridgeProducts.find((item: ItemType) => item.name === this.newItem.name)) {
+    ) !== undefined) {
+      console.log('Im there');
       const product = this.allFridgeProducts.find(
         (productInList: ItemType) => productInList.name === this.newItem.name,
       );
@@ -113,7 +116,6 @@ export default class AddItemButton extends Vue {
       });
     } else {
       const parsedId = parseInt(localStorage.getItem('fridgeId'), 10);
-      console.log('Fridge ID: ', parsedId);
       // eslint-disable-next-line @typescript-eslint/camelcase
       this.newItem.fridge_id = parsedId;
       // eslint-disable-next-line @typescript-eslint/camelcase
