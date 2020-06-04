@@ -80,9 +80,9 @@ export default class AddItemButton extends Vue {
 
   // TODO: needs checking (amount > 0, name != '') and get FridgeID
   saveItem(): void {
-    if (this.allFridgeProducts.find((item) => item.name === this.newItem.name)) {
+    if (this.allFridgeProducts.find((item: ItemType) => item.name === this.newItem.name)) {
       const product = this.allFridgeProducts.find(
-        (productInList) => productInList.name === this.newItem.name,
+        (productInList: ItemType) => productInList.name === this.newItem.name,
       );
       // eslint-disable-next-line @typescript-eslint/camelcase
       this.newItem.fridge_id = product.fridge_id;
