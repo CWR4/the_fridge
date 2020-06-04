@@ -5,7 +5,6 @@
         <input type="checkbox" v-model="isChecked" @click="moveItemToFridge">
       </div>
       <div class="col item-name text-left"
-        :class="{ checked: isChecked }"
       >
         {{ item.name }}
       </div>

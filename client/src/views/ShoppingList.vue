@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4>{{ fridgeName }}</h4>
+    <h4 class="fridge-name">{{ fridgeName }}</h4>
     <div class="home-container" v-if="products !== '' || products === []">
       <Item
       v-for="product in products"
@@ -65,5 +65,7 @@ export default class ShoppingList extends Vue {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
+.fridge-name {
+  margin-top: 20px;
+}
 </style>

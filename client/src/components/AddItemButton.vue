@@ -80,6 +80,10 @@ export default class AddItemButton extends Vue {
 
   // TODO: needs checking (amount > 0, name != '') and get FridgeID
   saveItem(): void {
+    console.log('This is save Item');
+    console.log(this.allFridgeProducts.find(
+      (item: ItemType) => item.name === this.newItem.name,
+    ) !== undefined);
     if (this.allFridgeProducts.find((item: ItemType) => item.name === this.newItem.name)) {
       const product = this.allFridgeProducts.find(
         (productInList: ItemType) => productInList.name === this.newItem.name,
@@ -93,33 +97,25 @@ export default class AddItemButton extends Vue {
       this.newItem.purchased = product.purchased;
       if (this.shoppingList) {
         this.newItem.amount = product.amount;
-        this.axios.post(
-          'http://localhost:8000/api/upsertproduct',
-          {
-            product: this.newItem,
-          },
-        ).then(() => {
-          this.eventBus.$emit('update');
-          this.newItem = {} as ItemType;
-          this.addingItem = false;
-        });
       } else if (!this.shoppingList) {
         // eslint-disable-next-line @typescript-eslint/camelcase
         this.newItem.amount_to_buy = product.amount_to_buy;
-        this.axios.post(
-          'http://localhost:8000/api/upsertproduct',
-          {
-            product: this.newItem,
-          },
-        ).then(() => {
-          this.eventBus.$emit('update');
-          this.newItem = {} as ItemType;
-          this.addingItem = false;
-        });
       }
+      this.axios.post(
+        'http://localhost:8000/api/upsertproduct',
+        {
+          product: this.newItem,
+        },
+      ).then(() => {
+        this.eventBus.$emit('update');
+        this.newItem = {} as ItemType;
+        this.addingItem = false;
+      });
     } else {
+      const parsedId = parseInt(localStorage.getItem('fridgeId'), 10);
+      console.log('Fridge ID: ', parsedId);
       // eslint-disable-next-line @typescript-eslint/camelcase
-      this.newItem.fridge_id = parseInt(localStorage.getItem('fridgeId'), 10);
+      this.newItem.fridge_id = parsedId;
       // eslint-disable-next-line @typescript-eslint/camelcase
       this.newItem.always_available = false;
       // eslint-disable-next-line @typescript-eslint/camelcase
@@ -127,31 +123,21 @@ export default class AddItemButton extends Vue {
       if (this.shoppingList) {
         this.newItem.purchased = false;
         this.newItem.amount = 0;
-        this.axios.post(
-          'http://localhost:8000/api/upsertproduct',
-          {
-            product: this.newItem,
-          },
-        ).then(() => {
-          this.eventBus.$emit('update');
-          this.newItem = {} as ItemType;
-          this.addingItem = false;
-        });
       } else {
         this.newItem.purchased = true;
         // eslint-disable-next-line @typescript-eslint/camelcase
         this.newItem.amount_to_buy = 0;
-        this.axios.post(
-          'http://localhost:8000/api/upsertproduct',
-          {
-            product: this.newItem,
-          },
-        ).then(() => {
-          this.eventBus.$emit('update');
-          this.newItem = {} as ItemType;
-          this.addingItem = false;
-        });
       }
+      this.axios.post(
+        'http://localhost:8000/api/upsertproduct',
+        {
+          product: this.newItem,
+        },
+      ).then(() => {
+        this.eventBus.$emit('update');
+        this.newItem = {} as ItemType;
+        this.addingItem = false;
+      });
     }
   }
 

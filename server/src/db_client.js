@@ -50,7 +50,7 @@ function upsertProduct(payload){
         connection.query($findProduct, queryParams, (error, result) => {
             //Catch, because updateProduct and insertProduct are returning 
             // Promises => otherwise no error-handling
-            console.log(result.length);
+            console.log('Upsert: ', result);
             if (!error && result.length === 0) {
                 insertProduct(payload).then((insertResult) => {
                     resolve(insertResult);
@@ -85,6 +85,7 @@ function insertProduct(payload) {
         connection.query($insertProduct, queryParams, (error, result) => {
             if (!error) {
                 result.message = "Product added";
+                console.log('InsertProduct result: ', result);
                 resolve(result);
             } else if (error) {
                 reject(error);
@@ -108,6 +109,7 @@ function updateProduct(payload) {
         connection.query($updateProduct, queryParams, (error, result) => {
             if (!error) {
                 result.message = "Product updated";
+                console.log('Update result: ', result);
                 resolve(result);
             } else if (error) {
                 reject(error);
@@ -143,7 +145,7 @@ function deleteProduct(payload){
                 result.message = "Product deleted: " + payload.product.name;
                 resolve(result);
             } else if (!error && result.affectedRows === 0) {
-                result.message = "Unsuccessful";
+                result.message = "deleteProduct was unsuccessful";
                 reject(result);
             } else if (error) {
                 reject(error);
@@ -154,7 +156,7 @@ function deleteProduct(payload){
 
 function getFridgeInventory(fridgeName){
     return new Promise((resolve, reject) => {
-        $getFridgeInventory = 'select p.* from products as p, fridges as f where f.name = ? and p.amount > 0;';
+        $getFridgeInventory = 'select p.* from products as p, fridges as f where f.name = ? and f.id = p.fridge_id and p.amount > 0;';
         queryParams = [
             fridgeName,
         ]
@@ -162,7 +164,7 @@ function getFridgeInventory(fridgeName){
             if (!error && result.length != 0) {
                 resolve(result);
             } else if (!error && result.length === 0) {
-                result.message = "Unsuccessful";
+                result.message = "getFridgeInventory was unsuccessful";
                 reject(result);
             } else if (error) {
                 reject(error);
@@ -173,7 +175,7 @@ function getFridgeInventory(fridgeName){
 
 function getShoppingList(fridgeName) {
     return new Promise((resolve, reject) => {
-        $getShoppingList = 'select p.* from products as p, fridges as f where f.name = ? and amount_to_buy > 0;';
+        $getShoppingList = 'select p.* from products as p, fridges as f where f.name = ? and f.id = p.fridge_id and amount_to_buy > 0;';
         queryParams = [
             fridgeName,
         ]
@@ -181,7 +183,7 @@ function getShoppingList(fridgeName) {
             if (!error && result.length != 0) {
                 resolve(result);
             } else if (!error && result.length === 0) {
-                result.message = "Unsuccessful";
+                result.message = "getShoppingList was unsuccessful";
                 reject(result);
             } else if (error) {
                 reject(error);
@@ -200,7 +202,7 @@ function getAllProducts(fridgeName) {
             if (!error && result.length != 0) {
                 resolve(result);
             } else if (!error && result.length === 0) {
-                result.message = "Unsuccessful";
+                result.message = "getAllProducts was unsuccessful";
                 reject(result);
             } else if (error) {
                 reject(error);
@@ -219,7 +221,7 @@ function getFridgeDataByName(fridgeName) {
             if (!error && result.length != 0) {
                 resolve(result);
             } else if (!error && result.length === 0) {
-                result.message = "Unsuccessful";
+                result.message = "getFridgeDataByName was unsuccessful";
                 reject(result);
             } else if (error) {
                 reject(error);

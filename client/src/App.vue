@@ -34,6 +34,9 @@ body, html {
   width: 100%;
   min-height: 100vh;
   background-color: #1894D6;
+  max-width: 850px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #app {

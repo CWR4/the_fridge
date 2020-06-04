@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4>{{ fridgeName }}</h4>
+    <h4 class="fridge-name">{{ fridgeName }}</h4>
     <div class="home-container" v-if="products !== '' || products === []">
       <Item
       v-for="product in products"
@@ -50,7 +50,7 @@ export default class Inventory extends Vue {
   }
 
   getProducts() {
-    console.log(this.fridgeName);
+    console.log('GetProducts start', this.fridgeName);
     this.axios.get('http://localhost:8000/api/getFridgeInventory', {
       params: {
         name: this.fridgeName,
@@ -66,4 +66,7 @@ export default class Inventory extends Vue {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 
+.fridge-name {
+  margin-top: 20px;
+}
 </style>
