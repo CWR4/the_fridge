@@ -56,6 +56,7 @@ export default class AddItemButton extends Vue {
 
   @Inject() eventBus: any;
 
+  // Gets name of current fridge from localStorage
   // eslint-disable-next-line class-methods-use-this
   get fridgeName(): string|null {
     return localStorage.getItem('userFridge');
@@ -65,6 +66,11 @@ export default class AddItemButton extends Vue {
     this.getFridgeId(this.fridgeName!);
   }
 
+  /** When add-button is clicked, this function is called. It retrieves the fridgeName
+   * from the localStorage. By setting addingItem to true, the dialogue to add an item
+   * is opened. All products are retrieved from the database to ensure the referenced 
+   * list is up-to-date.
+   */
   addItem(): void {
     const fridgeName = localStorage.getItem('userFridge');
     this.addingItem = true;
@@ -83,6 +89,10 @@ export default class AddItemButton extends Vue {
     });
   }
 
+  /** Checks, if added product is already in database and if it is being added
+   * to the shopping list or the inventory. Sets added item's values
+   * accordingly and sends it to backend.
+   */
   saveItem(): void {
     if (this.allFridgeProducts.find(
       (item: ItemType) => item.name === this.newItem.name,
@@ -146,6 +156,9 @@ export default class AddItemButton extends Vue {
     }
   }
 
+  /** Retrieves fridge ID from database and saves it in localstorage
+   * @param: fridgeName; type: string
+   */
   getFridgeId(fridgeName: string) {
     this.axios.get('http://localhost:8000/api/getFridgeDataByName',
       {

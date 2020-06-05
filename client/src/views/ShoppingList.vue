@@ -29,9 +29,9 @@ import AddItemButton from '@/components/AddItemButton.vue';
 })
 export default class ShoppingList extends Vue {
   products = [];
-
+  // eslint-disable-next-line
   @Inject() axios: any;
-
+  // eslint-disable-next-line
   @Inject() eventBus: any;
 
   created() {
@@ -49,11 +49,13 @@ export default class ShoppingList extends Vue {
     return localStorage.getItem('userFridge');
   }
 
+  /** Retrieves products of fridge shopping-list from database and saves result in products array */
   getProducts() {
     this.axios.get('http://localhost:8000/api/getfridgeshoppinglist', {
       params: {
         name: this.fridgeName,
       },
+      // eslint-disable-next-line
     }).then((result: any) => {
       this.products = result.data;
     }).catch((error: Error) => {

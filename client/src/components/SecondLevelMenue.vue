@@ -23,6 +23,11 @@
 import { Vue } from 'vue-property-decorator';
 
 export default class SecondLevelMenue extends Vue {
+  /** provides boolean value to diplay border bottom on chosen directory
+   * (inventory or shopping-list).
+   * @param: chosen route; type: string
+   * @returns: boolean
+   */
   isActive(route: string): boolean {
     return route === this.$route.name;
   }

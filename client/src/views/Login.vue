@@ -44,7 +44,9 @@ export default {
     });
   },
   methods: {
-    /** checks input for white space, returns true if true, false if false */
+    /** checks input for white space, returns true if true, false if false
+     * @param: userinput from inputfield; type: string
+     */
     checkOnWhiteSpaceInInput(inputForSpaceTest) {
       if (/\s/g.test(inputForSpaceTest) || inputForSpaceTest.length < 0) {
         this.isWhiteSpaceInInput = true;
@@ -56,7 +58,9 @@ export default {
       }
       return this.isWhiteSpaceInInput;
     },
-    /** checks if entered fridge name is already in use */
+    /** checks if entered fridge name is already in use
+     * @param: userinput from inputfield; type: string
+     */
     checkIfFridgeIsExistent(chosenFridgeName) {
       this.isFridgeExistent = this.fridgeNames.find((element) => element === chosenFridgeName);
       this.isWhiteSpaceInInput = false;
@@ -64,7 +68,8 @@ export default {
       this.isFridgeUnableToOpen = false;
       return this.isFridgeExistent;
     },
-    /** Creates new fridge, sets cookie with fridge name and redirects to next page */
+    /** Creates new fridge, sets value in local storage with fridge name and redirects
+     *  to next page */
     createNewFridge() {
       if (!this.checkOnWhiteSpaceInInput(this.fridgeName)
       && !this.checkIfFridgeIsExistent(this.fridgeName)) {
@@ -87,6 +92,7 @@ export default {
         this.fridgeName = '';
       }
     },
+    /** opens existing Fridge and saves fridge name in local storage */
     openFridge() {
       if (!this.checkOnWhiteSpaceInInput(this.fridgeName)
       && !this.checkIfFridgeIsExistent(this.fridgeName)) {

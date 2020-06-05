@@ -55,15 +55,19 @@ export default class Item extends Vue {
   @Prop() hasCheckbox!: boolean;
 
   @Prop() item!: ItemType;
-
+  // eslint-disable-next-line
   @Inject() axios: any;
-
+  // eslint-disable-next-line
   @Inject() eventBus: any;
 
   showOptions = false;
 
   isChecked = false;
 
+  /** for inventory: sets amount to zero
+   * for shopping list: sets amount_to_buy to zero.
+   * Updates product.
+   */
   deleteItem(): void {
     if (!this.hasCheckbox) {
       this.item.amount = 0;
@@ -74,6 +78,10 @@ export default class Item extends Vue {
     this.updateProduct();
   }
 
+  /** for inventory: sets amount plus one
+   * for shopping list: sets amount_to_buy plus one.
+   * Updates products.
+   */
   increaseAmount(): void {
     if (!this.hasCheckbox) {
       this.item.amount += 1;
@@ -84,6 +92,10 @@ export default class Item extends Vue {
     this.updateProduct();
   }
 
+  /** for inventory: sets amount minus one
+   * for shopping list: sets amount_to_buy minus one.
+   * Updates products.
+   */
   decreaseAmount(): void {
     if (!this.hasCheckbox && this.item.amount > 0) {
       this.item.amount -= 1;
@@ -94,6 +106,10 @@ export default class Item extends Vue {
     this.updateProduct();
   }
 
+  /** adds amount_to_buy to amount to display bought amount in fridge inventory.
+   * Sets purchased to true. Sets amount_to buy to zero to remove item from shopping list.
+   * Updates products.
+   */
   moveItemToFridge(): void {
     this.item.amount += this.item.amount_to_buy;
     this.item.purchased = true;
@@ -102,6 +118,7 @@ export default class Item extends Vue {
     this.updateProduct();
   }
 
+  /** Updates product in database. Emits the result to parent element */
   updateProduct(): void {
     this.axios.post(
       'http://localhost:8000/api/upsertproduct',
@@ -110,7 +127,7 @@ export default class Item extends Vue {
         // eslint-disable-next-line @typescript-eslint/camelcase
         fridge_id: this.item.fridge_id,
       },
-    ).then((result: any) => {
+    ).then(() => {
       this.eventBus.$emit('update');
     }).catch((error: Error) => {
       console.log(error);
