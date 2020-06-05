@@ -1,6 +1,10 @@
 const db = require('./connection');
 const connection = db.connectToDatabase();
 
+/** creates new fridge in fridges table
+ * @param: name of fridge
+ * @returns: Promise; resolve returns the query result, reject returns error
+ */
 function createNewFridge(fridgeName){
     return new Promise((resolve, reject) => {
         $createFridgeQuery = 'insert into fridges (`name`) values (?);';
@@ -18,6 +22,10 @@ function createNewFridge(fridgeName){
     });
 }
 
+/** deletes fridge in fridges table
+ * @param: name of fridge
+ * @returns: Promise; resolve returns the query result, reject returns error
+ */
 function deleteFridge(fridgeName) {
     return new Promise((resolve, reject) => {
         $deleteFridge = 'delete from fridges where `name` = ?;';
@@ -40,6 +48,11 @@ function deleteFridge(fridgeName) {
     });
 }
 
+/** calls insert or update function based on product existence in database
+ * and returns result of those functions
+ * @param: product payload
+ * @returns: Promise; resolve returns the query result, reject returns error
+ */
 function upsertProduct(payload){
     return new Promise((resolve, reject) => {
         $findProduct = 'select * from products where name = ? AND fridge_id = ?;';
@@ -70,6 +83,10 @@ function upsertProduct(payload){
     });
 }
 
+/** inserts new product into database
+ * @param: product payload
+ * @returns: Promise; resolve returns the query result, reject returns error
+ */
 function insertProduct(payload) {
     return new Promise((resolve, reject) => {
         $insertProduct = 'insert into products (name, amount, always_available, min_amount, fridge_id, purchased, amount_to_buy) values (?,?,?,?,?,?,?)';
@@ -94,6 +111,10 @@ function insertProduct(payload) {
     });
 }
 
+/** updates product in database
+ * @param: product payload
+ * @returns: Promise; resolve returns the query result, reject returns error
+ */
 function updateProduct(payload) {
     return new Promise((resolve, reject) => {
         $updateProduct = 'update products set amount = ?, always_available = ?, min_amount = ?, purchased = ?, amount_to_buy = ? WHERE name = ? AND fridge_id = ?';
@@ -118,6 +139,10 @@ function updateProduct(payload) {
     });
 }
 
+/** gets all fridges in database
+ * @returns: Promise; resolve returns the query result
+ * (fridgeName & ID), reject returns error
+ */
 function getFridges() {
     return new Promise((resolve, reject) => {
         $getFridges = 'select * from fridges;';
@@ -131,6 +156,10 @@ function getFridges() {
     });
 }
 
+/** deletes product from database
+ * @param: product payload
+ * @returns: Promise; resolve returns the query result, reject returns error
+ */
 function deleteProduct(payload){
     return new Promise((resolve, reject) => {
         $deleteProduct = 'delete from products where name = ? AND fridge_id = ?';
@@ -154,6 +183,11 @@ function deleteProduct(payload){
     });
 }
 
+/** gets inventory of chosen fridge
+ * @param: fridge name
+ * @returns: Promise; resolve returns the query result
+ * (array of products), reject returns error
+ */
 function getFridgeInventory(fridgeName){
     return new Promise((resolve, reject) => {
         $getFridgeInventory = 'select p.* from products as p, fridges as f where f.name = ? and f.id = p.fridge_id and p.amount > 0;';
@@ -173,6 +207,11 @@ function getFridgeInventory(fridgeName){
     });
 }
 
+/** gets shopping-list of chosen fridge
+ * @param: fridge name
+ * @returns: Promise; resolve returns the query result
+ * (array of products), reject returns error
+ */
 function getShoppingList(fridgeName) {
     return new Promise((resolve, reject) => {
         $getShoppingList = 'select p.* from products as p, fridges as f where f.name = ? and f.id = p.fridge_id and amount_to_buy > 0;';
@@ -192,6 +231,11 @@ function getShoppingList(fridgeName) {
     });
 }
 
+/** gets all products of chosen fridge
+ * @param: fridge name
+ * @returns: Promise; resolve returns the query result
+ * (array of products), reject returns error
+ */
 function getAllProducts(fridgeName) {
     return new Promise((resolve, reject) => {
         $getProducts = 'select p.* from products as p, fridges as f where f.name = ? and f.id = p.fridge_id;';
@@ -211,6 +255,11 @@ function getAllProducts(fridgeName) {
     });
 }
 
+/** gets name and id of chosen fridge
+ * @param: fridge name
+ * @returns: Promise; resolve returns the query result
+ * (fridge name & id), reject returns error
+ */
 function getFridgeDataByName(fridgeName) {
     return new Promise((resolve, reject) => {
         $getFridgeData = 'select * from fridges where name = ?;';

@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 
+/** @returns Connections to MariaDB database */
 function connectToDatabase() {
 
     const connection = mysql.createConnection({
@@ -22,6 +23,9 @@ function connectToDatabase() {
     return connection;
 }
 
+/** terminates connection to MariaDB database
+ * @param: connection to terminate
+ */
 function endConnection(connection) {
     connection.end(function() {
         console.log("Connection closed");
